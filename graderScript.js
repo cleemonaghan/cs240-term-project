@@ -1,30 +1,42 @@
+// Create a new rubric
+    //  General idea:
+    //      -The rubric will be a table
+    //          -3 Columns
+    //              -Column one is for points: input box that will update total on change
+    //              -Column two is for category name
+    //              -Column three is for notes: text box that will be saved on press of a button?
+    //      -There will be a add new row button
+    //      -There will be a subtract row button for each row
+
+
+
 
 newRubric();
 
 function newRubric()
 {
     // Get the dom that will house the rubric
-    div = document.querySelector("#rubric");
-    table = document.createElement("table");
+    var div = document.querySelector("#rubric");
+    let table = document.createElement("table");
     div.appendChild(table);
     
     //
-    headerRow = document.createElement("tr");
+    var headerRow = document.createElement("tr");
     
-    notesLabel = document.createElement("th");
+    var notesLabel = document.createElement("th");
     notesLabel.innerHTML = "Points";
     headerRow.appendChild(notesLabel);
     
-    categoryLabel = document.createElement("th");
+    var categoryLabel = document.createElement("th");
     categoryLabel.innerHTML = "Category";
     headerRow.appendChild(categoryLabel);
     
-    notesLabel = document.createElement("th");
+    var notesLabel = document.createElement("th");
     notesLabel.innerHTML = "Notes";
     headerRow.appendChild(notesLabel);
     
-    newRowButtonLabel = document.createElement("th");
-    addNewButton = document.createElement("button");
+    var newRowButtonLabel = document.createElement("th");
+    var addNewButton = document.createElement("button");
     addNewButton.innerHTML = "Add New";
     newRowButtonLabel.appendChild(addNewButton);
     headerRow.appendChild(newRowButtonLabel);
@@ -35,10 +47,10 @@ function newRubric()
     
     addNewButton.addEventListener("click", function()
     {
-        newRow = document.createElement("tr");
+        var newRow = document.createElement("tr");
 
         // Points
-        pointsOutOf = document.createElement("td");
+        var pointsOutOf = document.createElement("td");
         pointsOutOf.appendChild(document.createElement("input"));
         pointsOutOf.innerHTML += "/";
         pointsOutOf.appendChild(document.createElement("input"));
@@ -46,27 +58,32 @@ function newRubric()
         newRow.appendChild(pointsOutOf);
 
         // Category
-        category = document.createElement("td");
+        var category = document.createElement("td");
         category.appendChild(document.createElement("input"));
 
         newRow.appendChild(category);
 
         // Notes
-        comments = document.createElement("td");
-        comments.appendChild(document.createElement("input"));
+        var comments = document.createElement("td");
+        comments.appendChild(document.createElement("textarea"));
 
         newRow.appendChild(comments);
 
         // Remove button
-        removeButton = document.createElement("button")
+        var removeButton = document.createElement("button")
         removeButton.innerHTML = "Delete Row";
-        remove = document.createElement("td");
+        var remove = document.createElement("td");
         remove.appendChild(removeButton);
 
         // NEEDS FIX
         removeButton.addEventListener("click", function()
         {
-            table.removeChild(newRow);
+            (function(thisRow)
+            {
+                console.log(table);
+                console.log(thisRow);
+                table.removeChild(thisRow);
+            })(newRow);
         });
         //
 
@@ -77,13 +94,5 @@ function newRubric()
     });
 
     
-    // Create a new rubric
-    //  General idea:
-    //      -The rubric will be a table
-    //          -3 Columns
-    //              -Column one is for points: input box that will update total on change
-    //              -Column two is for category name
-    //              -Column three is for notes: text box that will be saved on press of a button?
-    //      -There will be a add new row button
-    //      -There will be a subtract row button for each row
+    
 }
