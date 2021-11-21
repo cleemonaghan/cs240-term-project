@@ -11,88 +11,209 @@
 
 
 
-newRubric();
+//newRubric();
 
-function newRubric()
+children = [];
+
+Rubric()
+
+function Rubric()
 {
-    // Get the dom that will house the rubric
-    var div = document.querySelector("#rubric");
+    
+
+    //
+    let div = document.querySelector("#rubric");
     let table = document.createElement("table");
     div.appendChild(table);
+
+    //
+    let headers = document.createElement("tr");
+
+    let catAndPtHead = document.createElement("th");
+    catAndPtHead.classList.add("pointsBox");
+    catAndPtHead.innerHTML = "Category and points";
+    headers.appendChild(catAndPtHead);
+
+    let commentsHead = document.createElement("th");
+    commentsHead.classList.add("commentsBox");
+    commentsHead.innerHTML = "Comments";
+    headers.appendChild(commentsHead);
+
+    table.appendChild(headers);
+
+    //
     
     //
-    var headerRow = document.createElement("tr");
-    
-    var notesLabel = document.createElement("th");
-    notesLabel.innerHTML = "Points";
-    headerRow.appendChild(notesLabel);
-    
-    var categoryLabel = document.createElement("th");
-    categoryLabel.innerHTML = "Category";
-    headerRow.appendChild(categoryLabel);
-    
-    var notesLabel = document.createElement("th");
-    notesLabel.innerHTML = "Notes";
-    headerRow.appendChild(notesLabel);
-    
-    var newRowButtonLabel = document.createElement("th");
-    var addNewButton = document.createElement("button");
-    addNewButton.innerHTML = "Add New";
-    newRowButtonLabel.appendChild(addNewButton);
-    headerRow.appendChild(newRowButtonLabel);
-
-    table.appendChild(headerRow);
-
-    ////////////////////////////////////////////////////
-    
-    addNewButton.addEventListener("click", function()
+    let button = document.createElement("button");
+    div.appendChild(button);
+    button.addEventListener("click", function()
     {
-        var newRow = document.createElement("tr");
-
-        // Points
-        var pointsOutOf = document.createElement("td");
-        pointsOutOf.appendChild(document.createElement("input"));
-        pointsOutOf.innerHTML += "/";
-        pointsOutOf.appendChild(document.createElement("input"));
-
-        newRow.appendChild(pointsOutOf);
-
-        // Category
-        var category = document.createElement("td");
-        category.appendChild(document.createElement("input"));
-
-        newRow.appendChild(category);
-
-        // Notes
-        var comments = document.createElement("td");
-        comments.appendChild(document.createElement("textarea"));
-
-        newRow.appendChild(comments);
-
-        // Remove button
-        var removeButton = document.createElement("button")
-        removeButton.innerHTML = "Delete Row";
-        var remove = document.createElement("td");
-        remove.appendChild(removeButton);
-
-        // NEEDS FIX
-        removeButton.addEventListener("click", function()
-        {
-            (function(thisRow)
-            {
-                console.log(table);
-                console.log(thisRow);
-                table.removeChild(thisRow);
-            })(newRow);
-        });
-        //
-
-        newRow.appendChild(removeButton);
-
-        //
-        table.appendChild(newRow);
+        let row = newCategory();
+        var rowNum = children.length;
+        row.dataset.rowNum = rowNum;
+        children.push(row);
+        table.appendChild(row);
+        
     });
 
-    
-    
 }
+
+function newCategory()
+{
+    let newRow = document.createElement("tr");
+    
+    let catAndPt = document.createElement("td");
+
+    let input1 = document.createElement("input");
+    // input1.size = 4;
+    input1.style.left = "0%";
+
+    let input2 = document.createElement("input");
+    // input2.size = 4;
+    input2.style.right = "70%";
+
+    catAndPt.appendChild(input1);
+    catAndPt.appendChild(input2);
+    catAndPt.classList.add("pointsBox");
+
+    newRow.appendChild(catAndPt);
+
+    let comments = document.createElement("td");
+    comments.appendChild(document.createElement("textarea"));
+    comments.classList.add("commentsBox");
+
+    newRow.appendChild(comments);
+
+    newRow.style.top = "" + ((children.length + 1) * 5) + "%";
+
+    return newRow;
+}
+
+function moveup(index, children)
+{
+    for(var i = index + 1; i < children.length; i++)
+    {
+        children[i].style.top = "" + ((i + 1) * 5) + "%";    
+    }
+}
+
+
+
+
+
+
+// function newRubric()
+// {
+//     // Get the dom that will house the rubric
+//     var div = document.querySelector("#rubric");
+//     let table = document.createElement("table");
+//     div.appendChild(table);
+    
+//     //
+//     var headerRow = document.createElement("tr");
+    
+//     var notesLabel = document.createElement("th");
+//     notesLabel.innerHTML = "Points";
+//     headerRow.appendChild(notesLabel);
+    
+//     var categoryLabel = document.createElement("th");
+//     categoryLabel.innerHTML = "Category";
+//     headerRow.appendChild(categoryLabel);
+    
+//     var notesLabel = document.createElement("th");
+//     notesLabel.innerHTML = "Notes";
+//     headerRow.appendChild(notesLabel);
+    
+//     var newRowButtonLabel = document.createElement("th");
+//     var addNewButton = document.createElement("button");
+//     addNewButton.innerHTML = "Add New";
+//     newRowButtonLabel.appendChild(addNewButton);
+//     headerRow.appendChild(newRowButtonLabel);
+
+//     table.appendChild(headerRow);
+
+//     ////////////////////////////////////////////////////
+//     var newRow = document.createElement("tr");
+
+//         // Points
+//         var pointsOutOf = document.createElement("td");
+//         input1 = document.createElement("input");
+//         input1.size = "4";
+//         pointsOutOf.appendChild(input1);
+//         pointsOutOf.innerHTML += "/";
+//         input2 = document.createElement("input");
+//         input2.size = "4";
+//         pointsOutOf.appendChild(input2);
+
+//         newRow.appendChild(pointsOutOf);
+
+//         // Category
+//         var category = document.createElement("td");
+//         category.appendChild(document.createElement("textarea"));
+
+//         newRow.appendChild(category);
+
+//         // Notes
+//         var comments = document.createElement("td");
+//         comments.appendChild(document.createElement("textarea"));
+
+//         newRow.appendChild(comments);
+
+//         //
+//         table.appendChild(newRow);
+    
+//     addNewButton.addEventListener("click", function()
+//     {
+//         var newRow = document.createElement("tr");
+
+//         // Points
+//         var pointsOutOf = document.createElement("td");
+//         input1 = document.createElement("input");
+//         input1.size = "4";
+//         pointsOutOf.appendChild(input1);
+//         pointsOutOf.innerHTML += "/";
+//         input2 = document.createElement("input");
+//         input2.size = "4";
+//         pointsOutOf.appendChild(input2);
+
+//         newRow.appendChild(pointsOutOf);
+
+//         // Category
+//         var category = document.createElement("td");
+//         var input3 = document.createElement("input");
+//         category.appendChild(input3);
+
+//         newRow.appendChild(category);
+
+//         // Notes
+//         var comments = document.createElement("td");
+//         comments.appendChild(document.createElement("textarea"));
+
+//         newRow.appendChild(comments);
+
+//         // Remove button
+//         var removeButton = document.createElement("button")
+//         removeButton.innerHTML = "Delete Row";
+//         var remove = document.createElement("td");
+//         remove.appendChild(removeButton);
+
+//         removeButton.addEventListener("click", function()
+//         {
+//             (function(thisRow)
+//             {
+//                 console.log(table);
+//                 console.log(thisRow);
+//                 table.removeChild(thisRow);
+//             })(newRow);
+//         });
+//         //
+
+//         newRow.appendChild(removeButton);
+
+//         //
+//         table.appendChild(newRow);
+//     });
+
+    
+    
+// }
