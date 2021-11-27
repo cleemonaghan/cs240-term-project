@@ -3,7 +3,7 @@
     //      -The rubric will be a table
     //          -3 Columns
     //              -Column one is for points: input box that will update total on change
-    //              -Column two is for category name
+    //              -Column one is also for category name
     //              -Column three is for notes: text box that will be saved on press of a button?
     //      -There will be a add new row button
     //      -There will be a subtract row button for each row
@@ -48,7 +48,7 @@ function Rubric()
     div.appendChild(button);
     button.addEventListener("click", function()
     {
-        let row = newCategory();
+        let row = newCategory(table);
         var rowNum = children.length;
         row.dataset.rowNum = rowNum;
         children.push(row);
@@ -58,19 +58,27 @@ function Rubric()
 
 }
 
-function newCategory()
+function newCategory(table)
 {
     let newRow = document.createElement("tr");
     
     let catAndPt = document.createElement("td");
 
+    // ON INPUT CHANGE MAKE SURE ITS WITHIN MAX/MIN BOUNDS AND NOT EXCEEDING TOTALS
+
     let input1 = document.createElement("input");
-    // input1.size = 4;
+    input1.type = "number";
+    input1.min = "0";
+    input1.max = "100";
     input1.style.left = "0%";
+    input1.style.top = "0%";
 
     let input2 = document.createElement("input");
-    // input2.size = 4;
-    input2.style.right = "70%";
+    input2.type = "number";
+    input2.min = "0";
+    input2.max = "100";
+    input2.style.left = "50%";
+    input2.style.top = "0%";
 
     catAndPt.appendChild(input1);
     catAndPt.appendChild(input2);
@@ -84,17 +92,56 @@ function newCategory()
 
     newRow.appendChild(comments);
 
-    newRow.style.top = "" + ((children.length + 1) * 5) + "%";
+    let removeBox = document.createElement("td");
+    let removeButton = document.createElement("button");
+    removeBox.appendChild(removeButton);
+
+    let thisIndex = children.length;
+
+    removeButton.addEventListener("click", function()
+    {
+        (function(t, row)
+        {
+            moveup(row);
+            removeRow(t, row);
+        })(table, newRow);
+    });
+
+    newRow.appendChild(removeBox);
+
+    newRow.style.top = "" + ((thisIndex + 1) * 5) + "%";
 
     return newRow;
 }
 
-function moveup(index, children)
+function moveup(row)
 {
+    var index = parseInt(row.dataset.rowNum);
+
+    console.log("" + children.length + " >= " + index + " ?");
+
+    if(index >= children.length)
+    {
+        return;
+    }
+
     for(var i = index + 1; i < children.length; i++)
     {
-        children[i].style.top = "" + ((i + 1) * 5) + "%";    
+        console.log("Moving up child " + i);
+        children[i].dataset.rowNum = "" + (i - 1);
+        children[i].style.top = "" + ((i) * 5) + "%";    
     }
+}
+
+function removeRow(table, row)
+{
+    var index = parseInt(row.dataset.rowNum);
+
+    console.log("Removing child " + index);
+
+    //
+    table.removeChild(row);
+    children.splice(index, 1);
 }
 
 

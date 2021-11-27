@@ -1,5 +1,6 @@
 .rubricBox
 {
+    display: inline-block;
     position: relative;
     border: 2px solid none;
     height: 500px; /* WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY */
@@ -8,8 +9,10 @@
     top: 0%;
 }
 
-table{
-    position: absolute;
+table
+{
+    display: inline-block;
+    position: relative;
     /* table-layout: fixed; */
     height: 100%;
     width: 100%;
@@ -19,6 +22,7 @@ table{
 
 tr
 {
+    display: inline-block;
     position: absolute;
     width: 100%;
     height: 10%;
@@ -27,6 +31,7 @@ tr
 
 th, td
 {
+    display: inline-block;
     position: absolute;
     font-size: 32%;
     width: 100%;
@@ -34,12 +39,14 @@ th, td
 
 .pointsBox
 {
+    display: inline-block;
     left: 0%;
     width: 20%;
 }
 
 .commentsBox
 {
+    display: inline-block;
     left: 50%;
     width: 79%;
 }
@@ -47,18 +54,22 @@ th, td
 button
 {
     position: absolute;
+    display: inline-block;
     left: 100%;
 }
 
 textarea
 {
     position: absolute;
+    display: inline-block;
     font-size: 3pt;
+    resize: none;
 }
 
 input
 {
     position: absolute;
+    display: inline-block;
     width: 50%;
     font-size: 3pt;
 }
