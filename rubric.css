@@ -33,6 +33,7 @@ th, td
 {
     display: inline-block;
     position: absolute;
+    vertical-align: middle;
     font-size: 32%;
     width: 100%;
 }
@@ -47,8 +48,15 @@ th, td
 .commentsBox
 {
     display: inline-block;
-    left: 50%;
-    width: 79%;
+    left: 30%;
+    width: 20%;
+}
+
+.removeButtonBox
+{
+    display: inline-block;
+    left: 45%;
+    width: 10%;
 }
 
 button
@@ -70,6 +78,6 @@ input
 {
     position: absolute;
     display: inline-block;
-    width: 50%;
-    font-size: 3pt;
+    width: 60%;
+    font-size: 1vmin;
 }

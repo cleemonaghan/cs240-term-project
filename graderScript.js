@@ -13,7 +13,10 @@
 
 //newRubric();
 
-children = [];
+let children = [];
+let maxPoints = 100;
+
+
 
 Rubric()
 
@@ -44,9 +47,11 @@ function Rubric()
     //
     
     //
-    let button = document.createElement("button");
-    div.appendChild(button);
-    button.addEventListener("click", function()
+    let newRowButton = document.createElement("button");
+    let newRowButtonHeader = document.createElement("th");
+    newRowButtonHeader.classList.add("removeButtonBox");
+    newRowButtonHeader.appendChild(newRowButton);
+    newRowButton.addEventListener("click", function()
     {
         let row = newCategory(table);
         var rowNum = children.length;
@@ -55,6 +60,7 @@ function Rubric()
         table.appendChild(row);
         
     });
+    headers.appendChild(newRowButtonHeader)
 
 }
 
@@ -72,13 +78,23 @@ function newCategory(table)
     input1.max = "100";
     input1.style.left = "0%";
     input1.style.top = "0%";
+    input1.value = "0";
 
     let input2 = document.createElement("input");
     input2.type = "number";
     input2.min = "0";
     input2.max = "100";
-    input2.style.left = "50%";
+    input2.style.left = "70%";
     input2.style.top = "0%";
+    input2.value = "0";
+
+    input2.addEventListener("change", function()
+    {
+        (function(row)
+        {
+            normalizeMaxPoints(row);
+        })(newRow);
+    });
 
     catAndPt.appendChild(input1);
     catAndPt.appendChild(input2);
@@ -95,6 +111,7 @@ function newCategory(table)
     let removeBox = document.createElement("td");
     let removeButton = document.createElement("button");
     removeBox.appendChild(removeButton);
+    removeBox.classList.add("removeButtonBox");
 
     let thisIndex = children.length;
 
@@ -112,6 +129,34 @@ function newCategory(table)
     newRow.style.top = "" + ((thisIndex + 1) * 5) + "%";
 
     return newRow;
+}
+
+// prevent category max point totals from adding up to over the total points 
+function normalizeMaxPoints(row)
+{
+    var index = parseInt(row.dataset.rowNum);
+
+    console.log("Normalizing point cap of " + index);
+    
+    // The total amount of max points allocated to categories so far
+    var totalMaxSoFar = 0;
+
+    for(var i = 0; i < index; i++)
+    {
+        totalMaxSoFar += parseInt(children[i].value);
+    }
+
+    // Evaluate the proposed value of this category and make sure there are no violations
+    var currentCap = parseInt(row.value);
+
+    if(currentCap < 0)
+    {
+        row.value = 0;
+    }
+    else if((currentCap + totalMaxSoFar) > maxPoints)
+    {
+        row.value = "" + (maxPoints - totalMaxSoFar);
+    }
 }
 
 function moveup(row)
