@@ -9,6 +9,8 @@ document.getElementById("file").onchange = function () {
 
 	//clear the old file from the screen
 	code.replaceChildren([]);
+	//clear the old comments from the screen
+	document.querySelector(".comment-hub").replaceChildren([]);
 
 	reader.onload = function (progressEvent) {
 		// By lines
