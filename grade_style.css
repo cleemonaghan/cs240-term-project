@@ -10,14 +10,29 @@ body {
 	flex-direction: column;
 }
 .menu-item {
+	display: flex;
+	justify-content: space-around;
 	border: 1px solid #fff;
 	text-align: center;
 	vertical-align: middle;
+
+	padding: 3px 0;
 }
 .menu-sub-item {
 	display: inline-flex;
 	text-align: center;
 	vertical-align: middle;
+
+	width: 100%;
+}
+
+#toggle-comments,
+#toggle-rubric {
+	/*background-color: transparent;*/
+	border: none;
+	text-align: center;
+	width: 100%;
+	height: 100%;
 }
 
 /* Body Rules */

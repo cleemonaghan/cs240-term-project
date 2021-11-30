@@ -74,10 +74,10 @@ document.getElementById("file").onchange = function () {
 						Number(comment_hub.lastChild.id) > Number(newComment.id)
 					) {
 						//if there are other children greater than it, find the child to insert before
-						let node = comment_hub.firstChild;
-						while (node != null && Number(node.id) < Number(newComment.id))
+						let node = comment_hub.firstChild.nextSibling;
+						while (node != null && Number(node.id) < Number(newComment.id)) {
 							node = node.nextSibling;
-
+						}
 						//insert the new comment into its sorted spot on the comment_hub
 						comment_hub.insertBefore(
 							newComment,
