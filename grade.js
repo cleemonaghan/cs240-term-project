@@ -98,4 +98,16 @@ document.getElementById("file").onchange = function () {
 	reader.readAsText(file);
 };
 
-function createComment() {}
+function showComments() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "block";
+	rubric.style.display = "none";
+}
+
+function showRubric() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "none";
+	rubric.style.display = "block";
+}

@@ -128,3 +128,9 @@ body {
 .comment-item-highlighted > button:hover {
 	font-weight: bold;
 }
+
+.rubric-hub {
+	background-color: green;
+	padding: 5px;
+	display: none;
+}
