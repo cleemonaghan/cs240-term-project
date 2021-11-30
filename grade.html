@@ -16,12 +16,19 @@
 				<nav class="menu">
 					<div class="menu-item">Home</div>
 					<div class="menu-item">
-						<div class="menu-sub-item"><div>Comments</div></div>
-						<div class="menu-sub-item">Rubric</div>
+						<div class="menu-sub-item">
+							<button id="toggle-comments" onclick="showComments()">
+								Comments
+							</button>
+						</div>
+						<div class="menu-sub-item">
+							<button id="toggle-rubric" onclick="showRubric()">Rubric</button>
+						</div>
 					</div>
 				</nav>
 				<input type="file" name="file" id="file" />
 				<div class="comment-hub"></div>
+				<div class="rubric-hub"></div>
 			</div>
 		</div>
 

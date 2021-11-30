@@ -74,10 +74,10 @@ document.getElementById("file").onchange = function () {
 						Number(comment_hub.lastChild.id) > Number(newComment.id)
 					) {
 						//if there are other children greater than it, find the child to insert before
-						let node = comment_hub.firstChild;
-						while (node != null && Number(node.id) < Number(newComment.id))
+						let node = comment_hub.firstChild.nextSibling;
+						while (node != null && Number(node.id) < Number(newComment.id)) {
 							node = node.nextSibling;
-
+						}
 						//insert the new comment into its sorted spot on the comment_hub
 						comment_hub.insertBefore(
 							newComment,
@@ -98,4 +98,16 @@ document.getElementById("file").onchange = function () {
 	reader.readAsText(file);
 };
 
-function createComment() {}
+function showComments() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "block";
+	rubric.style.display = "none";
+}
+
+function showRubric() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "none";
+	rubric.style.display = "block";
+}
