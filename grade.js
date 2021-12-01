@@ -65,6 +65,10 @@ function createCommentElement() {
 	commentId.innerHTML = newComment.id;
 	//create the text area for the comment
 	let commentInput = document.createElement("textarea");
+	//add an event listener to the commentInput
+	commentInput.addEventListener("blur", function () {
+		updateCommentInFile(newComment);
+	});
 	//create the delete button for the comment
 	let commentDelete = document.createElement("button");
 	commentDelete.innerHTML = "&#10005;";
@@ -74,6 +78,7 @@ function createCommentElement() {
 		traverseCodeWords(startElement, endElement, function (n) {
 			n.style = "text-decoration: none";
 		});
+		deleteCommentFromFile(newComment);
 	});
 	//add all the components of the comment to the comment element
 	newComment.appendChild(commentId);
@@ -129,6 +134,14 @@ function createCommentElement() {
 		//otherwise, insert to the front
 		comment_hub.appendChild(newComment);
 	}
+
+	// Phase 3: Add new comment to the file
+
+	//set the start to the overall index of the startElement
+	let start = startElement;
+	//set the end to the overall index of the endElement
+	let end = endElement;
+	AddCommentToFile(start, end, newComment);
 }
 
 function traverseCodeWords(startElement, endElement, func) {
@@ -146,13 +159,18 @@ function traverseCodeWords(startElement, endElement, func) {
 	if (endElement.localName != "span") func(endElement);
 }
 
-function AddCommentToFile(commentId, start, end, commentText) {
-	//create a json object holding the file, start, end, and commentText for the new comment
+function AddCommentToFile(start, end, commentElement) {
+	//create a json object holding the file, commentId, start, end, and commentText for the new comment
+
+	//create a unique commentId for the comment
+	console.log("adding comment");
 }
-function updateComment(commentId, newText) {
+function updateCommentInFile(commentElement) {
 	//update the text in the json object for the comment
+	console.log("updating comment");
 }
 
-function deleteComment(commentId) {
+function deleteCommentFromFile(commentElement) {
 	//delete the json object for the comment
+	console.log("deleting comment");
 }
