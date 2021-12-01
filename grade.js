@@ -54,7 +54,7 @@ function createComment() {
 	let endElement = selection.getRangeAt(0).endContainer.parentElement;
 	if (startElement == endElement) return;
 
-	var source = this;
+	// Phase 1: Create the comment element in the comment-hub
 	let comment_hub = document.querySelector(".comment-hub");
 	//create the comment
 	var newComment = document.createElement("div");
@@ -70,7 +70,6 @@ function createComment() {
 	commentDelete.innerHTML = "&#10005;";
 	commentDelete.addEventListener("click", function () {
 		this.parentElement.parentElement.removeChild(this.parentElement);
-		source.style = "color: white";
 		//remove the underline the text
 		traverseCodeWords(startElement, endElement, function (n) {
 			n.style = "text-decoration: none";
@@ -106,13 +105,22 @@ function createComment() {
 		});
 	});
 
+	// Phase 2: Add the new comment element to the comment-hub (in sorted order)
+	let newCommentLine = Number(
+		newComment.id.substring(0, newComment.id.length - 1)
+	);
 	if (
-		comment_hub.hasChildNodes() &&
-		Number(comment_hub.lastChild.id) > Number(newComment.id)
+		comment_hub.childNodes.length > 1 &&
+		Number(
+			comment_hub.lastChild.id.substring(0, comment_hub.lastChild.id.length - 1)
+		) > newCommentLine
 	) {
 		//if there are other children greater than it, find the child to insert before
-		let node = comment_hub.firstChild;
-		while (node != null && Number(node.id) < Number(newComment.id))
+		let node = comment_hub.firstChild.nextSibling;
+		while (
+			node != null &&
+			Number(node.id.substring(0, node.id.length - 1)) < newCommentLine
+		)
 			node = node.nextSibling;
 
 		//insert the new comment into its sorted spot on the comment_hub
