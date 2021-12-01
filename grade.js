@@ -43,12 +43,12 @@ document.getElementById("file").onchange = function () {
 		}
 
 		//add an event listener the code-panel
-		code.addEventListener("mouseup", createComment);
+		code.addEventListener("mouseup", createCommentElement);
 	};
 	reader.readAsText(file);
 };
 
-function createComment() {
+function createCommentElement() {
 	let selection = window.getSelection();
 	let startElement = selection.getRangeAt(0).startContainer.parentElement;
 	let endElement = selection.getRangeAt(0).endContainer.parentElement;
@@ -144,4 +144,15 @@ function traverseCodeWords(startElement, endElement, func) {
 		}
 	}
 	if (endElement.localName != "span") func(endElement);
+}
+
+function AddCommentToFile(commentId, start, end, commentText) {
+	//create a json object holding the file, start, end, and commentText for the new comment
+}
+function updateComment(commentId, newText) {
+	//update the text in the json object for the comment
+}
+
+function deleteComment(commentId) {
+	//delete the json object for the comment
 }
