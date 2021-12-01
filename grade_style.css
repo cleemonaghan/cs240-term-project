@@ -55,7 +55,7 @@ body {
 
 	height: 96vh; /* Full height */
 	position: fixed; /* Make it stick, even on scroll */
-	/*overflow-y: auto; /* Enable scrolling if the sidenav has too much content */
+	overflow-y: auto; /* Enable scrolling if the sidenav has too much content */
 }
 
 .comment-hub {
