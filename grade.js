@@ -52,9 +52,6 @@ function createComment() {
 	let selection = window.getSelection();
 	let startElement = selection.getRangeAt(0).startContainer.parentElement;
 	let endElement = selection.getRangeAt(0).endContainer.parentElement;
-	//console.dir(selection);
-	//console.dir(startElement);
-	//console.dir(endElement);
 	if (startElement == endElement) return;
 
 	var source = this;
@@ -130,14 +127,13 @@ function traverseCodeWords(startElement, endElement, func) {
 	let node = startElement;
 	while (node != endElement) {
 		while (node.nextSibling != null && node != endElement) {
-			func(node);
+			if (node.localName != "span") func(node);
 			node = node.nextSibling;
 		}
 		if (node != endElement) {
-			console.dir(node);
-			func(node);
-			node = node.parentElement.nextSibling.firstChild.nextSibling;
+			if (node.localName != "span") func(node);
+			node = node.parentElement.nextSibling.firstChild;
 		}
 	}
-	func(endElement);
+	if (endElement.localName != "span") func(endElement);
 }
