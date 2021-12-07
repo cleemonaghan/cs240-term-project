@@ -25,7 +25,7 @@ function Rubric()
     
 
     //
-    let div = document.querySelector("#rubric");
+    let div = document.querySelector(".rubric-hub");
     let table = document.createElement("table");
     div.appendChild(table);
 
