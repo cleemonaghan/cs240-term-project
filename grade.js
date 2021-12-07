@@ -174,3 +174,17 @@ function deleteCommentFromFile(commentElement) {
 	//delete the json object for the comment
 	console.log("deleting comment");
 }
+
+function showComments() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "block";
+	rubric.style.display = "none";
+}
+
+function showRubric() {
+	let comments = document.querySelector(".comment-hub");
+	let rubric = document.querySelector(".rubric-hub");
+	comments.style.display = "none";
+	rubric.style.display = "block";
+}
