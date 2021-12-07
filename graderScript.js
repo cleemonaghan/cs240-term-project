@@ -11,6 +11,7 @@
 
 
 
+
 //newRubric();
 
 let children = [];
@@ -21,6 +22,16 @@ let totalPoints = 0;
 
 Rubric()
 
+
+
+//
+
+let jsonTestRub = {"maxPoints" : 50, "rows" : [{"name" : "style", "points" : 13, "max" : 15, "comments" : "very good though it is good practice to style in css rather than javascript or html."}]};
+
+//
+
+jsonToRubric(jsonTestRub);
+
 function Rubric()
 {
     
@@ -30,7 +41,7 @@ function Rubric()
 
     console.log(div);
     
-    let table = document.createElement("table");
+    table = document.createElement("table");
     div.appendChild(table);
 
     //
@@ -43,12 +54,24 @@ function Rubric()
     {
         maxPoints = parseInt(pointMax.value);
     });
+
     pointMaxBox.appendChild(pointMax);
     pointInfoBox.appendChild(pointMaxBox);
 
     let pointTotalBox = document.createElement("td");
     pointInfoBox.appendChild(pointTotalBox);
     pointTotalBox.innerHTML = "Total Points: " + totalPoints;
+
+    //
+    let saveButton = document.createElement("button");
+    saveButton.innerHTML = "Save";
+    saveButton.addEventListener("click", function()
+    {
+        var jsonRub = rubricToJson();
+        console.log(JSON.parse(JSON.stringify(jsonRub)));
+    });
+    pointInfoBox.appendChild(saveButton);
+    //
 
     table.appendChild(pointInfoBox);
 
@@ -76,18 +99,14 @@ function Rubric()
     newRowButtonHeader.appendChild(newRowButton);
     newRowButton.addEventListener("click", function()
     {
-        let row = newCategory(table);
-        var rowNum = children.length;
-        row.dataset.rowNum = rowNum;
-        children.push(row);//splice(children.length - 1, 0, row);
-        table.appendChild(row);
+        newCategory(table, "", 0, 0, "");
         
     });
     headers.appendChild(newRowButtonHeader);
 
 }
 
-function newCategory(table)
+function newCategory(table, cat, pts, max, commentText)
 {
     let newRow = document.createElement("tr");
     
@@ -96,6 +115,7 @@ function newCategory(table)
     // ON INPUT CHANGE MAKE SURE ITS WITHIN MAX/MIN BOUNDS AND NOT EXCEEDING TOTALS
 
     let category = document.createElement("input");
+    category.value = cat;
     ////category.style.gridRowStart = "2";
 
     let input1 = document.createElement("input");
@@ -104,7 +124,7 @@ function newCategory(table)
     input1.max = "100";
     //input1.style.left = "0%";
     //input1.style.top = "0%";
-    input1.value = "0";
+    input1.value = pts;
     ////input1.style.gridRowStart = "1";
 
     input1.addEventListener("change", function()
@@ -115,7 +135,7 @@ function newCategory(table)
             {
                 row.firstChild.firstChild.value = "0";
             }
-            totalPoint(row, pointsBar);
+            totalPoint(pointsBar);
         })(newRow, table.children[0].children[1]);
     });
 
@@ -125,7 +145,7 @@ function newCategory(table)
     input2.max = "100";
     //input2.style.left = "70%";
     //input2.style.top = "0%";
-    input2.value = "0";
+    input2.value = max;
     ////input2.style.gridRowStart = "1";
 
     input2.addEventListener("change", function()
@@ -144,7 +164,9 @@ function newCategory(table)
     newRow.appendChild(catAndPt);
 
     let comments = document.createElement("td");
-    comments.appendChild(document.createElement("textarea"));
+    let textAr = document.createElement("textarea");
+    textAr.value = commentText;
+    comments.appendChild(textAr);
     comments.classList.add("commentsBox");
 
     newRow.appendChild(comments);
@@ -157,6 +179,7 @@ function newCategory(table)
 
     removeButton.addEventListener("click", function()
     {
+        console.log(children);
         (function(t, row)
         {
             moveup(row);
@@ -168,7 +191,12 @@ function newCategory(table)
 
     //newRow.style.top = "" + ((thisIndex + 1) * 5) + "%";
 
-    return newRow;
+
+    
+    var rowNum = children.length;
+    newRow.dataset.rowNum = rowNum;
+    children.push(newRow);
+    table.appendChild(newRow);
 }
 
 // prevent category max point totals from adding up to over the total points 
@@ -182,7 +210,7 @@ function normalizeMaxPoints(row)
     // Evaluate the proposed value of this category and make sure there are no violations
     var currentCap = parseInt(row.firstChild.children[2].value);
 
-    if(currentCap < 0)
+    if(currentCap < 0 || maxPoints == 0)
     {
         row.firstChild.children[2].value = 0;
     }
@@ -205,7 +233,7 @@ function normalizeMaxPoints(row)
 }
 
 // prevent category max point totals from adding up to over the total points 
-function totalPoint(row, pointsBox)
+function totalPoint(pointsBox)
 {
     
     // The total amount of max points allocated to categories so far
@@ -253,123 +281,64 @@ function removeRow(table, row)
     children.splice(index, 1);
 }
 
+// Converts all comments and relevant data to text for storage
+function rubricToJson()
+{
+    var max = maxPoints;
 
+    // Break down children (aka rubric sections) into arrays of important info
+    var rubricInfo = [];
+    for(var i = 0; i < children.length; i++)
+    {
+        // Push an json object that contains the relevant row info
+        rubricInfo.push(rowToJson(children[i]));
+    }
 
+    var jsonRubric = {"maxPoints" : maxPoints, "rows" : rubricInfo};
 
+    return jsonRubric;
+}
 
+function rowToJson(row)
+{
+    var subChildren = row.children;
 
-// function newRubric()
-// {
-//     // Get the dom that will house the rubric
-//     var div = document.querySelector("#rubric");
-//     let table = document.createElement("table");
-//     div.appendChild(table);
+        var pointsBoxDivs = subChildren[0].children;
+        var catName = pointsBoxDivs[0].value;
+        var pointsGiven = pointsBoxDivs[1].value;
+        var maxCatPoints = pointsBoxDivs[2].value;
+
+        var commentsBoxDiv = subChildren[1].children[0];
+        var commentText = commentsBoxDiv.value;
+
+        // Push an array that contains the category name, points given, 
+        //  the max points for that category, and the text in the comment box
+        var jsonRow = {"name" : catName, "points" : pointsGiven, "max" : maxCatPoints, "comments" : commentText};
+        return(jsonRow);
+}
+
+// Update the rubric to reflect the state given in a read in text file
+function jsonToRubric(jsonRub)
+{
+    var table = document.querySelector(".rubric-hub").firstChild;
+    var rubricInfoChildren = table.firstChild.children;
+
+    // Set the max point cap
+    rubricInfoChildren[0].firstChild.value = jsonRub.maxPoints;
+    maxPoints = jsonRub.maxPoints;
     
-//     //
-//     var headerRow = document.createElement("tr");
-    
-//     var notesLabel = document.createElement("th");
-//     notesLabel.innerHTML = "Points";
-//     headerRow.appendChild(notesLabel);
-    
-//     var categoryLabel = document.createElement("th");
-//     categoryLabel.innerHTML = "Category";
-//     headerRow.appendChild(categoryLabel);
-    
-//     var notesLabel = document.createElement("th");
-//     notesLabel.innerHTML = "Notes";
-//     headerRow.appendChild(notesLabel);
-    
-//     var newRowButtonLabel = document.createElement("th");
-//     var addNewButton = document.createElement("button");
-//     addNewButton.innerHTML = "Add New";
-//     newRowButtonLabel.appendChild(addNewButton);
-//     headerRow.appendChild(newRowButtonLabel);
+    // Add all the categories again
+    var categories = jsonRub.rows;
+    for(var i = 0; i < categories.length; i++)
+    {
+        var row = categories[i];
+        newCategory(table, row.name, row.points, row.max, row.comments);
+    }
 
-//     table.appendChild(headerRow);
-
-//     ////////////////////////////////////////////////////
-//     var newRow = document.createElement("tr");
-
-//         // Points
-//         var pointsOutOf = document.createElement("td");
-//         input1 = document.createElement("input");
-//         input1.size = "4";
-//         pointsOutOf.appendChild(input1);
-//         pointsOutOf.innerHTML += "/";
-//         input2 = document.createElement("input");
-//         input2.size = "4";
-//         pointsOutOf.appendChild(input2);
-
-//         newRow.appendChild(pointsOutOf);
-
-//         // Category
-//         var category = document.createElement("td");
-//         category.appendChild(document.createElement("textarea"));
-
-//         newRow.appendChild(category);
-
-//         // Notes
-//         var comments = document.createElement("td");
-//         comments.appendChild(document.createElement("textarea"));
-
-//         newRow.appendChild(comments);
-
-//         //
-//         table.appendChild(newRow);
-    
-//     addNewButton.addEventListener("click", function()
-//     {
-//         var newRow = document.createElement("tr");
-
-//         // Points
-//         var pointsOutOf = document.createElement("td");
-//         input1 = document.createElement("input");
-//         input1.size = "4";
-//         pointsOutOf.appendChild(input1);
-//         pointsOutOf.innerHTML += "/";
-//         input2 = document.createElement("input");
-//         input2.size = "4";
-//         pointsOutOf.appendChild(input2);
-
-//         newRow.appendChild(pointsOutOf);
-
-//         // Category
-//         var category = document.createElement("td");
-//         var input3 = document.createElement("input");
-//         category.appendChild(input3);
-
-//         newRow.appendChild(category);
-
-//         // Notes
-//         var comments = document.createElement("td");
-//         comments.appendChild(document.createElement("textarea"));
-
-//         newRow.appendChild(comments);
-
-//         // Remove button
-//         var removeButton = document.createElement("button")
-//         removeButton.innerHTML = "Delete Row";
-//         var remove = document.createElement("td");
-//         remove.appendChild(removeButton);
-
-//         removeButton.addEventListener("click", function()
-//         {
-//             (function(thisRow)
-//             {
-//                 console.log(table);
-//                 console.log(thisRow);
-//                 table.removeChild(thisRow);
-//             })(newRow);
-//         });
-//         //
-
-//         newRow.appendChild(removeButton);
-
-//         //
-//         table.appendChild(newRow);
-//     });
+    // Total up the points
+    console.log(rubricInfoChildren[1]);
+    totalPoint(rubricInfoChildren[1]);
+     
 
     
-    
-// }
+}
