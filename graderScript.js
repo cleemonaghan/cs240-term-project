@@ -18,6 +18,10 @@ let children = [];
 let maxPoints = 0;
 let totalPoints = 0;
 
+//
+let studentView = false;
+//
+
 
 
 Rubric()
@@ -26,11 +30,11 @@ Rubric()
 
 //
 
-//let jsonTestRub = {"maxPoints" : 50, "rows" : [{"name" : "style", "points" : 13, "max" : 15, "comments" : "very good though it is good practice to style in css rather than javascript or html."}]};
+let jsonTestRub = {"maxPoints" : 50, "rows" : [{"name" : "style", "points" : 13, "max" : 15, "comments" : "very good though it is good practice to style in css rather than javascript or html."}]};
 
 //
 
-//jsonToRubric(jsonTestRub);
+jsonToRubric(jsonTestRub);
 
 function Rubric()
 {
@@ -50,6 +54,7 @@ function Rubric()
     let pointMaxBox = document.createElement("td");
     let pointMax = document.createElement("input");
     pointMax.type = "number";
+    pointMax.readOnly = studentView;
     pointMax.addEventListener("change", function()
     {
         maxPoints = parseInt(pointMax.value);
@@ -63,6 +68,8 @@ function Rubric()
     pointTotalBox.innerHTML = "Total Points: " + totalPoints;
 
     //
+    if(!studentView)
+    {
     let saveButton = document.createElement("button");
     saveButton.innerHTML = "Save";
     saveButton.addEventListener("click", function()
@@ -71,6 +78,7 @@ function Rubric()
         console.log(JSON.parse(JSON.stringify(jsonRub)));
     });
     pointInfoBox.appendChild(saveButton);
+    }
     //
 
     table.appendChild(pointInfoBox);
@@ -90,9 +98,8 @@ function Rubric()
 
     table.appendChild(headers);
 
-    //
-    
-    //
+    if(!studentView)
+    {
     let newRowButton = document.createElement("button");
     let newRowButtonHeader = document.createElement("th");
     newRowButtonHeader.classList.add("removeButtonBox");
@@ -103,7 +110,7 @@ function Rubric()
         
     });
     headers.appendChild(newRowButtonHeader);
-
+    }
 }
 
 function newCategory(table, cat, pts, max, commentText)
@@ -116,12 +123,14 @@ function newCategory(table, cat, pts, max, commentText)
 
     let category = document.createElement("input");
     category.value = cat;
+    category.readOnly = studentView;
     ////category.style.gridRowStart = "2";
 
     let input1 = document.createElement("input");
     input1.type = "number";
     input1.min = "0";
     input1.max = "100";
+    input1.readOnly = studentView;
     //input1.style.left = "0%";
     //input1.style.top = "0%";
     input1.value = pts;
@@ -143,6 +152,7 @@ function newCategory(table, cat, pts, max, commentText)
     input2.type = "number";
     input2.min = "0";
     input2.max = "100";
+    input2.readOnly = studentView;
     //input2.style.left = "70%";
     //input2.style.top = "0%";
     input2.value = max;
@@ -166,11 +176,14 @@ function newCategory(table, cat, pts, max, commentText)
     let comments = document.createElement("td");
     let textAr = document.createElement("textarea");
     textAr.value = commentText;
+    textAr.readOnly = studentView;
     comments.appendChild(textAr);
     comments.classList.add("commentsBox");
 
     newRow.appendChild(comments);
 
+    if(!studentView)
+    {
     //let removeBox = document.createElement("td");
     let removeButton = document.createElement("button");
     removeButton.innerHTML = "&#10005;";
@@ -186,7 +199,7 @@ function newCategory(table, cat, pts, max, commentText)
             removeRow(t, row);
         })(table, newRow);
     });
-
+    }
     //newRow.appendChild(removeBox);
 
     //newRow.style.top = "" + ((thisIndex + 1) * 5) + "%";
