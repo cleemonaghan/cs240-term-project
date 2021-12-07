@@ -26,11 +26,11 @@ Rubric()
 
 //
 
-let jsonTestRub = {"maxPoints" : 50, "rows" : [{"name" : "style", "points" : 13, "max" : 15, "comments" : "very good though it is good practice to style in css rather than javascript or html."}]};
+//let jsonTestRub = {"maxPoints" : 50, "rows" : [{"name" : "style", "points" : 13, "max" : 15, "comments" : "very good though it is good practice to style in css rather than javascript or html."}]};
 
 //
 
-jsonToRubric(jsonTestRub);
+//jsonToRubric(jsonTestRub);
 
 function Rubric()
 {
