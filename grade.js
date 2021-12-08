@@ -18,6 +18,28 @@ var jsonObject = {
 			comment: "Bad code here again",
 		},
 	],
+	maxPoints : 50,
+	rows : 
+	[
+		{
+			name : "style", 
+			points : 13, 
+			max : 15, 
+			comments : "very good though it is good practice to style in css rather than javascript or html."
+		},
+		{
+			name : "efficency", 
+			points : 5, 
+			max : 6, 
+			comments : "nice job!."
+		},
+		{
+			name : "extra credit",
+			points : 10,
+			max : 0,
+			comments : "went to the presentation."
+		}
+	]
 };
 
 //get the file
