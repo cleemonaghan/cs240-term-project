@@ -1,4 +1,9 @@
 var student = false;
+
+//var className = "class1";
+//var studentID = "student1";
+var jsonObject;
+/*
 var jsonObject = {
 	file: "filename.cmt",
 	class: "class1",
@@ -18,29 +23,30 @@ var jsonObject = {
 			comment: "Bad code here again",
 		},
 	],
-	maxPoints : 50,
-	rows : 
-	[
+	maxPoints: 50,
+	rows: [
 		{
-			name : "style", 
-			points : 13, 
-			max : 15, 
-			comments : "very good though it is good practice to style in css rather than javascript or html."
+			name: "style",
+			points: 13,
+			max: 15,
+			comments:
+				"very good though it is good practice to style in css rather than javascript or html.",
 		},
 		{
-			name : "efficency", 
-			points : 5, 
-			max : 6, 
-			comments : "nice job!."
+			name: "efficency",
+			points: 5,
+			max: 6,
+			comments: "nice job!.",
 		},
 		{
-			name : "extra credit",
-			points : 10,
-			max : 0,
-			comments : "went to the presentation."
-		}
-	]
+			name: "extra credit",
+			points: 10,
+			max: 0,
+			comments: "went to the presentation.",
+		},
+	],
 };
+*/
 
 //get the file
 document.getElementById("file").onchange = function () {
@@ -89,8 +95,11 @@ document.getElementById("file").onchange = function () {
 		}
 
 		jsonObject.file = file.name;
+		jsonObject.class = "class1";
+		jsonObject.studentID = "student1";
+
 		//add all the previous comments to the screen
-		uploadPreviousComments(file.name);
+		uploadPreviousComments(jsonObject.class, jsonObject.studentID);
 
 		//if a grader, add a listener for new comments
 		if (!student) {
@@ -251,7 +260,7 @@ function traverseCodeWords(startElement, endElement, func) {
 	if (endElement.localName != "span") func(endElement);
 }
 
-function AddCommentToFile(newID, start, end) {
+async function AddCommentToFile(newID, start, end) {
 	//create a json object holding the file, commentId, start, end, and commentText for the new comment
 
 	//create a unique commentId for the comment
@@ -265,8 +274,14 @@ function AddCommentToFile(newID, start, end) {
 		comment: commentElement.firstChild.nextSibling.innerHTML,
 	};
 	jsonObject.comments.push(newComment);
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestId
+	);
 }
-function updateCommentInFile(commentElement) {
+async function updateCommentInFile(commentElement) {
 	//update the text in the json object for the comment
 	console.log("updating comment");
 	let commentID = commentElement.id;
@@ -278,9 +293,15 @@ function updateCommentInFile(commentElement) {
 			return;
 		}
 	}
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestId
+	);
 }
 
-function deleteCommentFromFile(commentElement) {
+async function deleteCommentFromFile(commentElement) {
 	//delete the json object for the comment
 	console.log("deleting comment");
 	let commentID = commentElement.id;
@@ -293,9 +314,18 @@ function deleteCommentFromFile(commentElement) {
 		}
 	}
 	jsonObject.comments.splice(index, 1);
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestId
+	);
 }
 
-function uploadPreviousComments(filename) {
+async function uploadPreviousComments(className, studentID) {
+	jsonObject = await fetchAssignment(className, studentID);
+
+	//load the old comments
 	let comments = jsonObject.comments;
 
 	for (let index = 0; index < comments.length; index++) {
@@ -312,6 +342,9 @@ function uploadPreviousComments(filename) {
 			);
 		}
 	}
+
+	//load the old rubric
+	jsonToRubric(jsonObject);
 }
 
 function showComments() {

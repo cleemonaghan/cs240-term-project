@@ -20,25 +20,6 @@ let studentView = false;
 
 Rubric();
 
-//
-
-let jsonTestRub = {
-	maxPoints: 50,
-	rows: [
-		{
-			name: "style",
-			points: 13,
-			max: 15,
-			comments:
-				"very good though it is good practice to style in css rather than javascript or html.",
-		},
-	],
-};
-
-//
-
-jsonToRubric(jsonTestRub);
-
 function Rubric() {
 	//
 	let div = document.querySelector(".rubric-hub");
@@ -71,8 +52,7 @@ function Rubric() {
 		let saveButton = document.createElement("button");
 		saveButton.innerHTML = "Save";
 		saveButton.addEventListener("click", function () {
-			var jsonRub = rubricToJson();
-			console.log(JSON.parse(JSON.stringify(jsonRub)));
+			saveRubric(jsonObject);
 		});
 		pointInfoBox.appendChild(saveButton);
 	}
@@ -265,7 +245,7 @@ function removeRow(table, row) {
 }
 
 // Converts all comments and relevant data to text for storage
-function rubricToJson(jsonRubric) {
+function saveRubric(jsonRubric) {
 	var max = maxPoints;
 
 	// Break down children (aka rubric sections) into arrays of important info
@@ -274,10 +254,13 @@ function rubricToJson(jsonRubric) {
 		// Push an json object that contains the relevant row info
 		rubricInfo.push(rowToJson(children[i]));
 	}
-	jsonRubric.maxPoints = maxPoints;
-	jsonRubric.rows = rubricInfo;
-
-	return jsonRubric;
+	//update the rubric in the database
+	updateRubric(
+		jsonRubric.className,
+		jsonRubric.studentID,
+		rubricInfo,
+		maxPoints
+	);
 }
 
 function rowToJson(row) {

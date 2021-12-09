@@ -75,7 +75,7 @@ async function updateComments(className, studentID, newComments, newHighestId) {
 	}
 }
 
-async function updateRubric(className, studentID, newRubric) {
+async function updateRubric(className, studentID, newRubric, newMaxPoints) {
 	try {
 		await client.connect();
 		console.log("Connected correctly to server");
@@ -92,6 +92,7 @@ async function updateRubric(className, studentID, newRubric) {
 			// The assignment exists, so update the comments
 			const p = await col.updateOne(query, {
 				$set: {
+					maxPoints: newMaxPoints,
 					rubric: newRubric,
 				},
 			});
