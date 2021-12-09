@@ -45,7 +45,7 @@ function login()
     if(validUsername && validPassword)
     {
         // Get user permissions
-        let accountType = "student";
+        let accountType = "student"; ////
 
         // Set session variables
         sessionStorage.setItem("username", username);
