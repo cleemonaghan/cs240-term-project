@@ -265,7 +265,7 @@ function removeRow(table, row) {
 }
 
 // Converts all comments and relevant data to text for storage
-function rubricToJson() {
+function rubricToJson(jsonRubric) {
 	var max = maxPoints;
 
 	// Break down children (aka rubric sections) into arrays of important info
@@ -274,8 +274,8 @@ function rubricToJson() {
 		// Push an json object that contains the relevant row info
 		rubricInfo.push(rowToJson(children[i]));
 	}
-
-	var jsonRubric = { maxPoints: maxPoints, rubric: rubricInfo };
+	jsonRubric.maxPoints = maxPoints;
+	jsonRubric.rows = rubricInfo;
 
 	return jsonRubric;
 }
