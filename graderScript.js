@@ -1,21 +1,9 @@
-// Create a new rubric
-//  General idea:
-//      -The rubric will be a table
-//          -3 Columns
-//              -Column one is for points: input box that will update total on change
-//              -Column one is also for category name
-//              -Column three is for notes: text box that will be saved on press of a button?
-//      -There will be a add new row button
-//      -There will be a subtract row button for each row
-
-//newRubric();
-
 let children = [];
 let maxPoints = 0;
 let totalPoints = 0;
 
 //
-let studentView = false;
+let studentView = student;
 //
 
 Rubric();
@@ -255,12 +243,7 @@ function saveRubric(jsonRubric) {
 		rubricInfo.push(rowToJson(children[i]));
 	}
 	//update the rubric in the database
-	updateRubric(
-		jsonRubric.className,
-		jsonRubric.studentID,
-		rubricInfo,
-		maxPoints
-	);
+	updateRubric(jsonRubric.class, jsonRubric.studentID, rubricInfo, maxPoints);
 }
 
 function rowToJson(row) {

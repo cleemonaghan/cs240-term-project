@@ -94,12 +94,8 @@ document.getElementById("file").onchange = function () {
 			code.appendChild(line);
 		}
 
-		jsonObject.file = file.name;
-		jsonObject.class = "class1";
-		jsonObject.studentID = "student1";
-
 		//add all the previous comments to the screen
-		uploadPreviousComments(jsonObject.class, jsonObject.studentID);
+		uploadPreviousComments("class1", "student3");
 
 		//if a grader, add a listener for new comments
 		if (!student) {
@@ -278,7 +274,7 @@ async function AddCommentToFile(newID, start, end) {
 		jsonObject.class,
 		jsonObject.studentID,
 		jsonObject.comments,
-		jsonObject.highestId
+		jsonObject.highestID
 	);
 }
 async function updateCommentInFile(commentElement) {
@@ -290,14 +286,15 @@ async function updateCommentInFile(commentElement) {
 		if (current.id == commentID) {
 			jsonObject.comments[index].comment =
 				commentElement.firstChild.nextSibling.value;
-			return;
+			break;
 		}
 	}
+	console.log(jsonObject.comments);
 	await updateComments(
 		jsonObject.class,
 		jsonObject.studentID,
 		jsonObject.comments,
-		jsonObject.highestId
+		jsonObject.highestID
 	);
 }
 
@@ -318,11 +315,12 @@ async function deleteCommentFromFile(commentElement) {
 		jsonObject.class,
 		jsonObject.studentID,
 		jsonObject.comments,
-		jsonObject.highestId
+		jsonObject.highestID
 	);
 }
 
 async function uploadPreviousComments(className, studentID) {
+	console.log(`fetching from server ${className}, ${studentID}`);
 	jsonObject = await fetchAssignment(className, studentID);
 
 	//load the old comments
@@ -345,18 +343,4 @@ async function uploadPreviousComments(className, studentID) {
 
 	//load the old rubric
 	jsonToRubric(jsonObject);
-}
-
-function showComments() {
-	let comments = document.querySelector(".comment-hub");
-	let rubric = document.querySelector(".rubric-hub");
-	comments.style.display = "block";
-	rubric.style.display = "none";
-}
-
-function showRubric() {
-	let comments = document.querySelector(".comment-hub");
-	let rubric = document.querySelector(".rubric-hub");
-	comments.style.display = "none";
-	rubric.style.display = "block";
 }

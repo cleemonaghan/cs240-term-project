@@ -32,8 +32,23 @@
 			</div>
 		</div>
 
-		<script src="grade.js"></script>
-		<script src="graderScript.js"></script>
-		<script src="mongoBundle.js"></script>
+		<script>
+			function showComments() {
+				let comments = document.querySelector(".comment-hub");
+				let rubric = document.querySelector(".rubric-hub");
+				comments.style.display = "block";
+				rubric.style.display = "none";
+			}
+
+			function showRubric() {
+				let comments = document.querySelector(".comment-hub");
+				let rubric = document.querySelector(".rubric-hub");
+				comments.style.display = "none";
+				rubric.style.display = "block";
+			}
+		</script>
+		<script src="grade_bundle.js"></script>
+		<!--<script src="grade.js"></script>
+		<script src="graderScript.js"></script>-->
 	</body>
 </html>
