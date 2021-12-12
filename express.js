@@ -4,6 +4,7 @@ const path = require("path");
 const server = express();
 
 server.use(express.static(__dirname + "/grade/public"));
+server.use(express.static(__dirname + "/session/public"));
 
 server.listen(port, function () {
 	console.log(`The server is now running on ${port}`);
@@ -11,13 +12,14 @@ server.listen(port, function () {
 
 server.get("/grade", function (req, resp) {
 	console.log(`Got an http GET request for /grade`);
-	console.log(`Query String: ${req.query}`);
 
 	resp.sendFile(path.join(__dirname, "/grade/grade.html"));
 });
 
 server.post("/login", function (req, resp) {
 	console.log("Got an http POST request to /login");
+
+	resp.sendFile(path.join(__dirname, "/session/login.html"));
 });
 
 // for any other route, we will catch it with this
