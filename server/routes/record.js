@@ -1,5 +1,6 @@
 const { query } = require("express");
 const express = require("express");
+var ObjectId = require("mongodb").ObjectId;
 
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
@@ -48,7 +49,9 @@ recordRoutes.route("/assignments").get(async function (req, res) {
 // This section will help you create a new record.
 recordRoutes.route("/assignments/create").post(function (req, res) {
 	const dbConnect = dbo.getDb();
-	const matchDocument = req.query;
+	const matchDocument = req.body.params;
+	matchDocument._id = new ObjectId(matchDocument._id);
+	console.log(matchDocument);
 
 	dbConnect
 		.collection("assignments")
@@ -58,6 +61,38 @@ recordRoutes.route("/assignments/create").post(function (req, res) {
 			} else {
 				console.log(`Added a new match with id ${result.insertedId}`);
 				res.status(204).send();
+			}
+		});
+});
+
+recordRoutes.route("/assignments/updateAssignment").post(function (req, res) {
+	const dbConnect = dbo.getDb();
+	const params = req.body.params;
+	const listingQuery = {
+		_id: new ObjectId(params._id),
+		class: params.class,
+		studentID: params.studentID,
+	};
+	const updates = {
+		$set: {
+			text: params.text,
+			highestID: params.highestID,
+			comments: params.comments,
+			maxPoints: params.maxPoints,
+			rows: params.rows,
+		},
+	};
+	dbConnect
+		.collection("assignments")
+		.updateOne(listingQuery, updates, function (err, _result) {
+			if (err) {
+				res
+					.status(400)
+					.send(
+						`Error updating likes on listing for student ${listingQuery.studentID}!`
+					);
+			} else {
+				console.log("1 document updated");
 			}
 		});
 });
