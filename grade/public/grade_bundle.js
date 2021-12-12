@@ -185,12 +185,17 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],2:[function(require,module,exports){
-var axios = require("axios");
+/**
+ * This file is a union of the grade.js, graderScript.js and
+ * mongoInteractions.js files. It is bundled using browserify
+ * and saved as the file grade_bundle.js for grade.html to use.
+ */
 
+var axios = require("axios");
 var student = false;
 
-//var className = "class1";
-//var studentID = "student1";
+var thisClassName = "class1";
+var thisStudentID = "student3";
 var jsonObject;
 /*
 var jsonObject = {
@@ -236,12 +241,15 @@ var jsonObject = {
 	],
 };
 */
+//jsonObject = await fetchAssignment(this_className, this_studentID);
+loadFile();
 
 //get the file
-document.getElementById("file").onchange = function () {
-	var file = this.files[0];
+async function loadFile() {
+	//var file = this.files[0];
+	jsonObject = await fetchAssignment(thisClassName, thisStudentID);
 
-	var reader = new FileReader();
+	var rawText = jsonObject.text; //new FileReader();
 
 	// Get the element for the code panel
 	let code = document.querySelector(".code-text");
@@ -251,65 +259,65 @@ document.getElementById("file").onchange = function () {
 	//clear the old comments from the screen
 	document.querySelector(".comment-hub").replaceChildren([]);
 
-	reader.onload = function (progressEvent) {
-		// By lines
-		var lines = this.result.split("\n");
-		let wordIndex = 0;
-		for (var i = 0; i < lines.length; i++) {
-			//console.log(lines[i]);
-			//create a line for each child
-			let line = document.createElement("div");
-			let word = document.createElement("span");
-			//get the tabbing
-			let index = 1;
-			while (index - 1 < lines[i].length && lines[i][index - 1] == "\t") {
-				index++;
-			}
-			word.innerHTML = `${i + 1}.`;
-			word.id = `line${i + 1}.`;
+	//reader.onload = function (progressEvent) {
+	// By lines
+	var lines = rawText.split("\n");
+	let wordIndex = 0;
+	for (var i = 0; i < lines.length; i++) {
+		//console.log(lines[i]);
+		//create a line for each child
+		let line = document.createElement("div");
+		let word = document.createElement("span");
+		//get the tabbing
+		let index = 1;
+		while (index - 1 < lines[i].length && lines[i][index - 1] == "\t") {
+			index++;
+		}
+		word.innerHTML = `${i + 1}.`;
+		word.id = `line${i + 1}.`;
+		word.className = "code-word";
+		word.style = `padding-right: ${20 * index}px`;
+		line.appendChild(word);
+		let arrayOfWords = lines[i].split(" ");
+		for (let j = 0; j < arrayOfWords.length; j++) {
+			word = document.createElement("div");
+			word.innerHTML = arrayOfWords[j].trim() + " ";
 			word.className = "code-word";
-			word.style = `padding-right: ${20 * index}px`;
+			word.id = `word-${wordIndex}`;
+			wordIndex++;
 			line.appendChild(word);
-			let arrayOfWords = lines[i].split(" ");
-			for (let j = 0; j < arrayOfWords.length; j++) {
-				word = document.createElement("div");
-				word.innerHTML = arrayOfWords[j].trim() + " ";
-				word.className = "code-word";
-				word.id = `word-${wordIndex}`;
-				wordIndex++;
-				line.appendChild(word);
+		}
+
+		code.appendChild(line);
+	}
+
+	//add all the previous comments to the screen
+	uploadPreviousComments(jsonObject.class, jsonObject.studentID);
+
+	//if a grader, add a listener for new comments
+	if (!student) {
+		//add an event listener the code-panel
+		code.addEventListener("mouseup", function () {
+			let selection = window.getSelection();
+			let startElement = selection.getRangeAt(0).startContainer.parentElement;
+			let endElement = selection.getRangeAt(0).endContainer.parentElement;
+			if (startElement == endElement) return;
+			else {
+				let newID = jsonObject.highestID + 1;
+				jsonObject.highestID = newID;
+				createCommentElement(
+					newID,
+					startElement,
+					endElement,
+					"Make new comment here",
+					false
+				);
 			}
-
-			code.appendChild(line);
-		}
-
-		//add all the previous comments to the screen
-		uploadPreviousComments("class1", "student3");
-
-		//if a grader, add a listener for new comments
-		if (!student) {
-			//add an event listener the code-panel
-			code.addEventListener("mouseup", function () {
-				let selection = window.getSelection();
-				let startElement = selection.getRangeAt(0).startContainer.parentElement;
-				let endElement = selection.getRangeAt(0).endContainer.parentElement;
-				if (startElement == endElement) return;
-				else {
-					let newID = jsonObject.highestID + 1;
-					jsonObject.highestID = newID;
-					createCommentElement(
-						newID,
-						startElement,
-						endElement,
-						"Make new comment here",
-						false
-					);
-				}
-			});
-		}
-	};
-	reader.readAsText(file);
-};
+		});
+	}
+	//};
+	//reader.readAsText(file);
+}
 
 function createCommentElement(
 	commentID,
@@ -508,9 +516,6 @@ async function deleteCommentFromFile(commentElement) {
 }
 
 async function uploadPreviousComments(className, studentID) {
-	console.log(`fetching from server ${className}, ${studentID}`);
-	jsonObject = await fetchAssignment(className, studentID);
-
 	//load the old comments
 	let comments = jsonObject.comments;
 
@@ -821,20 +826,45 @@ function jsonToRubric(jsonRub) {
 Referencing the database --------------------------------------------------------------
 
 
-async function fetchAllAssignments() {
-	const response = await axios.get(`http://129.114.104.125/:5000/assignments`);
-	const json = await response.data;
-	console.log(json);
-	return json;
-}
-*/
-async function insertAssignment(classname, student) {
-	await axios.post("http://129.114.104.125:5000/assignments/create", {
+async function insertAssignment(classname, student, rawText) {
+	//check if the assignment has already been created
+	const response = await axios.get(`http://129.114.104.125:5000/assignments`, {
 		params: {
 			class: classname,
 			studentID: student,
 		},
 	});
+	const json = await response.data;
+	//If the assignment already exists, update it with the new content
+	if (response.data != null) {
+		await axios.post(
+			"http://129.114.104.125:5000/assignments/updateAssignment",
+			{
+				params: {
+					_id: response.data._id,
+					class: classname,
+					studentID: student,
+					text: rawText,
+					highestID: 0,
+					comments: [],
+					maxPoints: 0,
+					rows: [],
+				},
+			}
+		);
+	} else {
+		await axios.post("http://129.114.104.125:5000/assignments/create", {
+			params: {
+				class: classname,
+				studentID: student,
+				text: rawText,
+				highestID: 0,
+				comments: [],
+				maxPoints: 0,
+				rows: [],
+			},
+		});
+	}
 }
 
 async function updateComments(classname, student, newComments, newHighestId) {
@@ -892,8 +922,6 @@ async function fetchAssignment(classname, student) {
 	console.log(json);
 	return json;
 }
-
-//deleteAssignment("class1", "student2");
 
 },{"axios":3}],3:[function(require,module,exports){
 module.exports = require('./lib/axios');
