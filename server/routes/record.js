@@ -27,6 +27,62 @@ recordRoutes.route("/assignments").get(async function (req, res) {
     });
 });
 */
+
+// This section will help you validate a user's credentials
+recordRoutes.route("/users/validate").get(async function (req, res) {
+	//connect to the database
+	const dbConnect = dbo.getDb();
+	//console.log(req.query);
+	const matchDocument = req.query;
+
+	await dbConnect
+		.collection("users")
+		.findOne(matchDocument, function (err, result) {
+			if (err) {
+				res.json(null);
+			} else {
+				//console.log(result);
+				res.json(result);
+			}
+		});
+});
+
+// This section will help you validate a user's credentials
+recordRoutes.route("/users/add").get(async function (req, res) {
+	//connect to the database
+	const dbConnect = dbo.getDb();
+	const matchDocument = req.body.params;
+
+	dbConnect
+		.collection("users")
+		.insertOne(matchDocument, function (err, result) {
+			if (err) {
+				res.status(400).send("Error inserting user!");
+			} else {
+				console.log(`Added a new user ${result.username}`);
+				res.status(204).send();
+			}
+		});
+});
+
+// This section will help you delete a record
+recordRoutes.route("/users/delete").delete((req, res) => {
+	const dbConnect = dbo.getDb();
+	const listingQuery = req.query;
+
+	dbConnect
+		.collection("users")
+		.deleteOne(listingQuery, function (err, _result) {
+			if (err) {
+				res
+					.status(400)
+					.send(`Error deleting listing with id ${listingQuery.username}!`);
+			} else {
+				console.log("1 user deleted");
+			}
+		});
+});
+
 // This section will help you get a list of a specific record.
 recordRoutes.route("/assignments").get(async function (req, res) {
 	//connect to the database
@@ -50,8 +106,6 @@ recordRoutes.route("/assignments").get(async function (req, res) {
 recordRoutes.route("/assignments/create").post(function (req, res) {
 	const dbConnect = dbo.getDb();
 	const matchDocument = req.body.params;
-	matchDocument._id = new ObjectId(matchDocument._id);
-	console.log(matchDocument);
 
 	dbConnect
 		.collection("assignments")
