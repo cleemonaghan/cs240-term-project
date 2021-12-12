@@ -16,7 +16,7 @@ async function login() {
 	let password = document.querySelector("#password").value;
 
 	// Check Database for Valid User/Pwd
-	var result = await validateLogin(inputUsername, inputPassword);
+	var result = await validateLogin(username, password);
 
 	// If the username or password is bad, display error
 	if (result == null) {
