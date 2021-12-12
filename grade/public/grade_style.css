@@ -1,0 +1,137 @@
+body {
+	margin: 0;
+}
+
+/* Menu Rules */
+
+.menu {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+.menu-item {
+	display: flex;
+	justify-content: space-around;
+	border: 1px solid #fff;
+	text-align: center;
+	vertical-align: middle;
+
+	padding: 3px 0;
+}
+.menu-sub-item {
+	display: inline-flex;
+	text-align: center;
+	vertical-align: middle;
+
+	width: 100%;
+}
+
+#toggle-comments,
+#toggle-rubric {
+	/*background-color: transparent;*/
+	border: none;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+}
+
+/* Body Rules */
+.container {
+	background-color: rgb(50, 50, 50);
+	display: flex;
+	justify-content: space-between;
+	height: 100%;
+	margin-right: 448px;
+}
+
+.code-panel {
+	display: block;
+	color: white;
+	height: 96vh;
+	width: 100%;
+	overflow-y: auto;
+	padding: 1%;
+}
+
+/*code-text rules*/
+.code-text {
+	font: 400;
+	font-size: large;
+	font-family: "Courier New", Courier, monospace;
+}
+
+.code-word {
+	display: inline;
+}
+
+.rubric-panel {
+	right: 0;
+	width: 400px;
+	padding: 32px 24px 0;
+	background-color: cornflowerblue;
+
+	height: 96vh; /* Full height */
+	position: fixed; /* Make it stick, even on scroll */
+	/*overflow-y: auto; /* Enable scrolling if the sidenav has too much content */
+}
+
+.comment-hub {
+	background-color: beige;
+	padding: 5px;
+}
+
+.comment-item {
+	background-color: cornflowerblue;
+	padding: 1px;
+	border: 1px black solid;
+	padding: 2px;
+	margin: 5px;
+}
+
+.comment-item-highlighted {
+	background-color: cornflowerblue;
+	padding: 1px;
+	border: 2px red solid;
+	padding: 2px;
+	margin: 5px;
+}
+
+.comment-item > div,
+.comment-item-highlighted > div {
+	display: inline;
+	padding-right: 3px;
+}
+.comment-item > textarea,
+.comment-item-highlighted > textarea {
+	display: inline-block;
+
+	background: transparent;
+	resize: none;
+	border: 0 none;
+	outline: none;
+
+	width: 300px;
+	min-height: 14pt;
+}
+.comment-item > button,
+.comment-item-highlighted > button {
+	display: inline;
+	float: right;
+	padding: 3px;
+
+	background-color: transparent;
+	border: none;
+	text-align: center;
+	text-decoration: none;
+	font-weight: normal;
+}
+.comment-item > button:hover,
+.comment-item-highlighted > button:hover {
+	font-weight: bold;
+}
+
+.rubric-hub {
+	background-color: green;
+	padding: 5px;
+	display: none;
+}
