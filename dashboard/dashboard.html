@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 
 <head>
-
+    <meta charset="utf-8" />
+    <title>Index</title>
+    <link rel="stylesheet" href="public/dashboard.css" />
 </head>
 
 <body>
-    <script src="dashboard.js"></script>
+
+    <div class="nav-bar">
+        <nav>
+            <h>GRADEBOOK CODE</h>
+            <button onclick="logout()">Logout</button>
+        </nav>
+    </div>
+
+    <div class="container">
+        <!--
+        <div class="section">
+            <h1>Submit Assignments</h1>
+            <div class="tile-holder">
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h1>Review Assignments</h1>
+
+        </div>
+        -->
+    </div>
+
+
+    <!--<script src="../grade/public/mongoInteractions.js"></script>-->
+    <script src="public/bundle_dashboard_student.js"></script>
+    <script src="public/bundle_dashboard_grader.js"></script>
+    <script src="public/dashboard.js"></script>
+    <script src="../session/public/logout.js"></script>
 </body>
 
 </html>

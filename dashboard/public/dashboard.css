@@ -1,0 +1,59 @@
+body {
+	background-color: lightblue;
+	margin: 0;
+}
+
+.nav-bar {
+	background-color: cornflowerblue;
+	color: white;
+}
+
+.container {
+	border: 1px solid black;
+}
+
+.section {
+	border: 1px solid red;
+	margin-top: 10px;
+	padding: 30px;
+}
+
+.tile-holder {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	text-align: center;
+}
+
+.tile {
+	background-color: royalblue;
+	color: white;
+	width: 200px;
+	height: 200px;
+	margin-top: 20px;
+	margin-right: 20px;
+	border-radius: 20%;
+
+	justify-content: center;
+}
+
+.tile:hover {
+	background-color: rgb(94, 94, 255);
+	cursor: pointer;
+}
+
+.tile-name {
+	padding: 25px;
+	font-size: large;
+}
+
+.tile-score {
+	padding: 40px;
+	font-size: x-large;
+}
+
+.tile-input {
+	color: transparent;
+	padding-left: 5px;
+	padding-top: 40px;
+}
