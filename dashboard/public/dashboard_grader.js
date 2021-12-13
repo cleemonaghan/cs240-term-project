@@ -4,8 +4,15 @@ console.log(sessionStorage.getItem("userType"));
 */
 var axios = require("axios");
 
-let userType = "student";
-if (userType != "student") {
+// If we are missing any of the data change to login page
+if (
+	sessionStorage.getItem("username") == null ||
+	sessionStorage.getItem("userType") == null
+) {
+	window.location.replace("../login");
+}
+
+if (sessionStorage.getItem("userType") == "grader") {
 	//display the grader page
 	displayGraderPage();
 }

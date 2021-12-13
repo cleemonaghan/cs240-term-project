@@ -4,20 +4,23 @@ console.log(sessionStorage.getItem("userType"));
 */
 var axios = require("axios");
 
-let userType = "student";
-if (userType == "student") {
+// If we are missing any of the data change to login page
+if (
+	sessionStorage.getItem("username") == null ||
+	sessionStorage.getItem("userType") == null
+) {
+	window.location.replace("../login");
+}
+
+if (sessionStorage.getItem("userType") != "grader") {
 	//display the student page
 	displayStudentPage();
 }
 
-var student = "earao";
-
 async function displayStudentPage() {
 	//fetch all the student's assignments
-	console.log("displaying");
-	var student = "earao";
+	var student = sessionStorage.getItem("username");
 	let assignments = await fetchStudentsAssignment(student);
-	console.log(assignments);
 
 	// Part 1: Unsubmitted assignments -----------------------------------------
 	//select the container on the page
@@ -123,7 +126,6 @@ async function displayStudentPage() {
 	for (let i = 0; i < assignments.length; i++) {
 		if (assignments[i].text != null && assignments[i].maxPoints == 0) {
 			tileCount += 1;
-			console.log(assignments[i]);
 			tileHolder.appendChild(
 				createTile(
 					assignments[i].class,
@@ -202,7 +204,7 @@ function loadFile(evt, className) {
 	reader.onload = async function (progressEvent) {
 		// By lines
 		var rawText = this.result;
-		var student = "earao";
+		var student = sessionStorage.getItem("username");
 		await submitAssignment(className, student, rawText);
 
 		// Refresh the page
