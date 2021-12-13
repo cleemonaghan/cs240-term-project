@@ -134,6 +134,10 @@ function newCategory(table, cat, pts, max, commentText) {
 	let textAr = document.createElement("textarea");
 	textAr.value = commentText;
 	textAr.readOnly = studentView;
+	textAr.oninput = function () {
+		this.style.height = "5px";
+		this.style.height = this.scrollHeight + "px";
+	};
 	comments.appendChild(textAr);
 	comments.classList.add("commentsBox");
 

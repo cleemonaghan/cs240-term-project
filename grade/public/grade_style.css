@@ -131,7 +131,12 @@ body {
 }
 
 .rubric-hub {
-	background-color: green;
+	background-color: beige;
 	padding: 5px;
 	display: none;
+}
+
+textarea {
+	resize: none;
+	overflow: hidden;
 }
