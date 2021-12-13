@@ -236,6 +236,7 @@ async function displayGraderPage() {
 		let name = document.querySelector("#assignment_name").value;
 		let students = graderJson.students;
 		for (let i = 0; i < students.length; i++) {
+			await updateGraderClasses(name, grader);
 			await insertAssignment(name, grader, students[i], null);
 		}
 		// Refresh the page
@@ -418,15 +419,18 @@ async function insertAssignment(classname, grader, student, rawText) {
 				rows: [],
 			},
 		});
-		let assignments = await fetchgraderAssignments(grader);
-		assignments[0].assignments.push(classname);
-		await axios.post("http://129.114.104.125:5000/grader_classes/addClass", {
-			params: {
-				graderID: grader,
-				assignments: assignments[0].assignments,
-			},
-		});
 	}
+}
+
+async function updateGraderClasses(classname, grader) {
+	let assignments = await fetchgraderAssignments(grader);
+	assignments[0].assignments.push(classname);
+	await axios.post("http://129.114.104.125:5000/grader_classes/addClass", {
+		params: {
+			graderID: grader,
+			assignments: assignments[0].assignments,
+		},
+	});
 }
 
 },{"axios":3}],3:[function(require,module,exports){
