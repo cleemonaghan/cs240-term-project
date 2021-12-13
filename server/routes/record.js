@@ -270,6 +270,7 @@ recordRoutes.route("/assignments/updateRubric").post(function (req, res) {
 		$set: {
 			maxPoints: req.body.params.maxPoints,
 			rubric: req.body.params.rubric,
+			totalPoints: req.body.params.totalPoints,
 		},
 	};
 
