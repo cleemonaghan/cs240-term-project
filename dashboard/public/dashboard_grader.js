@@ -82,17 +82,16 @@ async function displayGraderPage() {
 		//add a tile for each student
 		let tileCount = 0;
 		for (let i = 0; i < studentWork.length; i++) {
-			if (studentWork[i].text != null) {
-				tileCount += 1;
-				tileHolder.appendChild(
-					createTile(
-						studentWork[i].studentID,
-						studentWork[i].maxPoints,
-						studentWork[i].maxPoints,
-						studentWork[i].maxPoints != 0
-					)
-				);
-			}
+			tileCount += 1;
+			tileHolder.appendChild(
+				createTile(
+					studentWork[i].studentID,
+					studentWork[i].maxPoints,
+					studentWork[i].maxPoints,
+					studentWork[i].maxPoints != 0,
+					studentWork[i].text
+				)
+			);
 		}
 		//if the student has no assignments due, display that to screen
 		if (tileCount == 0) {
@@ -115,7 +114,7 @@ async function displayGraderPage() {
  * @param {boolean} pastDue true if the assignment cannot be submitted anymore
  * @returns A DOM element of a tile
  */
-function createTile(name, score, maxPoints, pastDue) {
+function createTile(name, score, maxPoints, pastDue, text) {
 	//format the divs
 	let tile = document.createElement("div");
 	tile.className = "tile";
@@ -124,11 +123,35 @@ function createTile(name, score, maxPoints, pastDue) {
 	tileHeader.innerHTML = name;
 
 	tile.appendChild(tileHeader);
-
-	if (pastDue) {
+	if (text == null) {
+		//if they haven't submitted anything, inform the grader
+		//we haven't graded this one yet
+		let tileScore = document.createElement("div");
+		tileScore.className = "tile-score";
+		tileScore.innerHTML = `Unsubmitted`;
+		//add an event listener for the tile
+		tile.addEventListener("click", function () {
+			console.log("Clicked on a button.");
+			// Redirect to grade.html
+			//window.location.href = "../grade";
+		});
+		tile.appendChild(tileScore);
+	} else if (pastDue) {
 		let tileScore = document.createElement("div");
 		tileScore.className = "tile-score";
 		tileScore.innerHTML = `${score}/${maxPoints}`;
+		//add an event listener for the tile
+		tile.addEventListener("click", function () {
+			console.log("Clicked on a button.");
+			// Redirect to grade.html
+			//window.location.href = "../grade";
+		});
+		tile.appendChild(tileScore);
+	} else {
+		//we haven't graded this one yet
+		let tileScore = document.createElement("div");
+		tileScore.className = "tile-score";
+		tileScore.innerHTML = `Ungraded`;
 		//add an event listener for the tile
 		tile.addEventListener("click", function () {
 			console.log("Clicked on a button.");
@@ -209,11 +232,11 @@ async function insertAssignment(classname, grader, student, rawText) {
 			},
 		});
 		let assignments = await fetchgraderAssignments(grader);
-		assignments.assignments.push(classname);
+		assignments[0].assignments.push(classname);
 		await axios.post("http://129.114.104.125:5000/grader_classes/addClass", {
 			params: {
 				graderID: grader,
-				assignments: assignments,
+				assignments: assignments[0].assignments,
 			},
 		});
 	}
