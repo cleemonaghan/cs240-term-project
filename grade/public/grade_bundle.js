@@ -200,6 +200,12 @@ var jsonObject;
 
 loadFile();
 
+// Add event listener to home button
+document.querySelector("#homeButton").addEventListener("click", function()
+{
+  console.log("ENTER REDIRECT HERE");
+});
+
 //get the file
 async function loadFile() {
 	//var file = this.files[0];

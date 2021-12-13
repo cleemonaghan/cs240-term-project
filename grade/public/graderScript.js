@@ -71,6 +71,7 @@ function Rubric() {
 		newRowButton.addEventListener("click", function () {
 			newCategory(table, "", 0, 0, "");
 		});
+		newRowButton.innerHTML = "Add";
 		headers.appendChild(newRowButtonHeader);
 	}
 }
@@ -243,7 +244,7 @@ function saveRubric(jsonRubric) {
 		rubricInfo.push(rowToJson(children[i]));
 	}
 	//update the rubric in the database
-	updateRubric(jsonRubric.class, jsonRubric.studentID, rubricInfo, maxPoints);
+	updateRubric(jsonRubric.class, jsonRubric.studentID, rubricInfo, maxPoints, totalPoints);
 }
 
 function rowToJson(row) {
@@ -285,6 +286,6 @@ function jsonToRubric(jsonRub) {
 	}
 
 	// Total up the points
-	console.log(rubricInfoChildren[1]);
+	////console.log(rubricInfoChildren[1]);
 	totalPoint(rubricInfoChildren[1]);
 }
