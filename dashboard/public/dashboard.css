@@ -59,14 +59,11 @@ body {
 	padding-top: 40px;
 }
 
-.logout
-{
+.logout {
 	float: right;
 }
 
-.header
-{
+.header {
 	display: inline-block;
-	left: 50%;
-	position: fixed;
+	margin-left: 35%;
 }
