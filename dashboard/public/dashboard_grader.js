@@ -58,13 +58,9 @@ async function displayGraderPage() {
 	form.appendChild(input);
 	form.appendChild(submit);
 	tileHolder.appendChild(form);
-	/* 
-    <form action="/action_page.php">
-  <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br><br>
-  <input type="submit" value="Submit">
-</form>
-    */
+	section.appendChild(title);
+	section.appendChild(tileHolder);
+	container.appendChild(section);
 
 	//Part 2: create a section for each assignment
 	for (let i = 0; i < graderJson.assignments.length; i++) {
