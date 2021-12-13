@@ -21,6 +21,13 @@ if (sessionStorage.getItem("userType") != "grader") {
 }
 
 async function displayStudentPage() {
+	// Display username at top of screen
+	document.querySelector("#currentUser").innerHTML =
+		sessionStorage.getItem("username") +
+		" (" +
+		sessionStorage.getItem("userType") +
+		")";
+
 	//fetch all the student's assignments
 	var student = sessionStorage.getItem("username");
 	let assignments = await fetchStudentsAssignment(student);
