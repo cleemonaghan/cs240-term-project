@@ -191,6 +191,9 @@ console.log(sessionStorage.getItem("userType"));
 */
 var axios = require("axios");
 
+sessionStorage.removeItem("student");
+sessionStorage.removeItem("assignment");
+
 // If we are missing any of the data change to login page
 if (
 	sessionStorage.getItem("username") == null ||
@@ -361,8 +364,11 @@ function createTile(name, score, maxPoints, pastDue) {
 		//add an event listener for the tile
 		tile.addEventListener("click", function () {
 			console.log("Clicked on a button.");
+
+			sessionStorage.setItem("student", sessionStorage.getItem("username"));
+			sessionStorage.setItem("assignment", name);
 			// Redirect to grade.html
-			//window.location.href = "../grade";
+			window.location.href = "../grade";
 		});
 		tile.appendChild(tileScore);
 	} else {

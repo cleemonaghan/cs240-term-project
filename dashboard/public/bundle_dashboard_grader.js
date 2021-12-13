@@ -191,6 +191,9 @@ console.log(sessionStorage.getItem("userType"));
 */
 var axios = require("axios");
 
+sessionStorage.removeItem("student");
+sessionStorage.removeItem("assignment");
+
 // If we are missing any of the data change to login page
 if (
 	sessionStorage.getItem("username") == null ||
@@ -274,6 +277,7 @@ async function displayGraderPage() {
 			tileCount += 1;
 			tileHolder.appendChild(
 				createTile(
+					studentWork[i].class,
 					studentWork[i].studentID,
 					studentWork[i].maxPoints,
 					studentWork[i].maxPoints,
@@ -303,7 +307,7 @@ async function displayGraderPage() {
  * @param {boolean} pastDue true if the assignment cannot be submitted anymore
  * @returns A DOM element of a tile
  */
-function createTile(name, score, maxPoints, pastDue, text) {
+function createTile(assignment, name, score, maxPoints, pastDue, text) {
 	//format the divs
 	let tile = document.createElement("div");
 	tile.className = "tile";
@@ -312,44 +316,30 @@ function createTile(name, score, maxPoints, pastDue, text) {
 	tileHeader.innerHTML = name;
 
 	tile.appendChild(tileHeader);
+
+	let tileScore = document.createElement("div");
+	tileScore.className = "tile-score";
 	if (text == null) {
 		//if they haven't submitted anything, inform the grader
-		//we haven't graded this one yet
-		let tileScore = document.createElement("div");
-		tileScore.className = "tile-score";
 		tileScore.innerHTML = `Unsubmitted`;
-		//add an event listener for the tile
-		tile.addEventListener("click", function () {
-			console.log("Clicked on a button.");
-			// Redirect to grade.html
-			//window.location.href = "../grade";
-		});
-		tile.appendChild(tileScore);
 	} else if (pastDue) {
-		let tileScore = document.createElement("div");
-		tileScore.className = "tile-score";
+		//if they have graded it, show the score
 		tileScore.innerHTML = `${score}/${maxPoints}`;
-		//add an event listener for the tile
-		tile.addEventListener("click", function () {
-			console.log("Clicked on a button.");
-			// Redirect to grade.html
-			//window.location.href = "../grade";
-		});
-		tile.appendChild(tileScore);
 	} else {
 		//we haven't graded this one yet
-		let tileScore = document.createElement("div");
-		tileScore.className = "tile-score";
 		tileScore.innerHTML = `Ungraded`;
-		//add an event listener for the tile
-		tile.addEventListener("click", function () {
-			console.log("Clicked on a button.");
-			// Redirect to grade.html
-			//window.location.href = "../grade";
-		});
-		tile.appendChild(tileScore);
 	}
 
+	tile.appendChild(tileScore);
+	//add an event listener for the tile
+	tile.addEventListener("click", function () {
+		console.log("Clicked on a button.");
+
+		sessionStorage.setItem("student", name);
+		sessionStorage.setItem("assignment", assignment);
+		// Redirect to grade.html
+		window.location.href = "../grade";
+	});
 	return tile;
 }
 
