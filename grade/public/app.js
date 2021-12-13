@@ -456,6 +456,7 @@ function newCategory(table, cat, pts, max, commentText) {
 		this.style.height = "5px";
 		this.style.height = this.scrollHeight + "px";
 	};
+	textAr.style.height = textAr.scrollHeight + "px";
 	comments.appendChild(textAr);
 	comments.classList.add("commentsBox");
 
