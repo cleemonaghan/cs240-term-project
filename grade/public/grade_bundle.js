@@ -775,6 +775,9 @@ function jsonToRubric(jsonRub) {
 
 	// Add all the categories again
 	var categories = jsonRub.rubric;
+  if(categories == undefined) {
+    categories = [];
+  }
 	for (var i = 0; i < categories.length; i++) {
 		var row = categories[i];
 		newCategory(table, row.name, row.points, row.max, row.comments);

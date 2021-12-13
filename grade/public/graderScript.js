@@ -244,7 +244,13 @@ function saveRubric(jsonRubric) {
 		rubricInfo.push(rowToJson(children[i]));
 	}
 	//update the rubric in the database
-	updateRubric(jsonRubric.class, jsonRubric.studentID, rubricInfo, maxPoints, totalPoints);
+	updateRubric(
+		jsonRubric.class,
+		jsonRubric.studentID,
+		rubricInfo,
+		maxPoints,
+		totalPoints
+	);
 }
 
 function rowToJson(row) {
@@ -280,6 +286,9 @@ function jsonToRubric(jsonRub) {
 
 	// Add all the categories again
 	var categories = jsonRub.rubric;
+	if (categories == undefined) {
+		categories = [];
+	}
 	for (var i = 0; i < categories.length; i++) {
 		var row = categories[i];
 		newCategory(table, row.name, row.points, row.max, row.comments);
