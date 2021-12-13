@@ -554,7 +554,13 @@ function saveRubric(jsonRubric) {
 		rubricInfo.push(rowToJson(children[i]));
 	}
 	//update the rubric in the database
-	updateRubric(jsonRubric.class, jsonRubric.studentID, rubricInfo, maxPoints);
+	updateRubric(
+		jsonRubric.class,
+		jsonRubric.studentID,
+		rubricInfo,
+		maxPoints,
+		totalPoints
+	);
 }
 
 function rowToJson(row) {
