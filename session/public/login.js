@@ -31,7 +31,7 @@ async function login() {
 		sessionStorage.setItem("userType", result.accountType);
 
 		// Redirect to dashboard
-		window.location.href = "../dashboard/dashboard.html";
+		window.location.href = "../dashboard";
 	}
 }
 
