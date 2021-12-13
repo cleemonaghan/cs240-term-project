@@ -14,5 +14,11 @@ if(username == null || username == null || userType == null)
 }
 
 // Add login info to the logged in tab
-document.querySelector("#currentUser").innerHTML = username + " " + "(" + userType + ")";
+document.querySelector(".currentUser").innerHTML = username + " " + "(" + userType + ")";
+
+// Add listener to logout if logout button is clicked
+document.querySelector(".logout").addEventListener("click", function()
+{
+    window.location.href = "../session/logout.html";
+});
 

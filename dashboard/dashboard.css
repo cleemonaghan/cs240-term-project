@@ -17,14 +17,14 @@
     padding: 10% 5%;
 }
 
-.table
+.outerPositioner
 {
     display: table;
     height: 100%;
     width: 100%;
 }
 
-.table-cell
+.item
 {
     display: table-cell;
     vertical-align: middle;
@@ -34,6 +34,57 @@
     font-size: larger;
 }
 
-body{
+.item:hover
+{
+    background-color: aquamarine;
+}
+
+body
+{
     background-color: maroon;
 }
+
+.title
+{
+    font-size: larger;
+    float: left;
+    text-align: center;
+}
+
+.topBar 
+{
+    float: left;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+}
+
+.logout
+{
+    float: right;
+    font-size: larger;
+    background-color: beige;
+}
+
+.logout:hover
+{
+    background-color: yellow;
+}
+
+.currentUser
+{
+    font-size: large;
+    float: left;
+    padding-left: 1%;
+    text-align: center;    
+}
+
+.item:hover a
+{
+    color: blueviolet;
+}
+
+
+
