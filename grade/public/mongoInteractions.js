@@ -1,6 +1,6 @@
 var axios = require("axios");
 
-async function insertAssignment(classname, student, rawText) {
+async function insertAssignment(classname, grader, student, rawText) {
 	//check if the assignment has already been created
 	const response = await axios.get(`http://129.114.104.125:5000/assignments`, {
 		params: {
@@ -18,6 +18,7 @@ async function insertAssignment(classname, student, rawText) {
 					_id: response.data._id,
 					class: classname,
 					studentID: student,
+					graderID: grader,
 					text: rawText,
 					highestID: 0,
 					comments: [],
@@ -31,6 +32,7 @@ async function insertAssignment(classname, student, rawText) {
 			params: {
 				class: classname,
 				studentID: student,
+				graderID: grader,
 				text: rawText,
 				highestID: 0,
 				comments: [],
@@ -94,6 +96,32 @@ async function fetchAssignment(classname, student) {
 	const json = await response.data;
 	console.log("FETCHED");
 	console.log(json);
+	return json;
+}
+
+async function fetchStudentsAssignment(student) {
+	const response = await axios.get(
+		`http://129.114.104.125:5000/assignments/fetchAll`,
+		{
+			params: {
+				studentID: student,
+			},
+		}
+	);
+	const json = await response.data;
+	return json;
+}
+
+async function fetchgraderAssignment(grader) {
+	const response = await axios.get(
+		`http://129.114.104.125:5000/assignments/fetchAll`,
+		{
+			params: {
+				graderID: grader,
+			},
+		}
+	);
+	const json = await response.data;
 	return json;
 }
 /*
