@@ -780,7 +780,7 @@ function jsonToRubric(jsonRub) {
 
 /*
 Referencing the database --------------------------------------------------------------
-
+*/
 var axios = require("axios");
 
 async function insertAssignment(classname, grader, student, rawText) {
@@ -806,7 +806,6 @@ async function insertAssignment(classname, grader, student, rawText) {
 					highestID: 0,
 					comments: [],
 					maxPoints: 0,
-					rows: [],
 				},
 			}
 		);
@@ -820,7 +819,6 @@ async function insertAssignment(classname, grader, student, rawText) {
 				highestID: 0,
 				comments: [],
 				maxPoints: 0,
-				rows: [],
 			},
 		});
 	}
