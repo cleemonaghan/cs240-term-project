@@ -6,6 +6,11 @@ var jsonObject;
 
 loadFile();
 
+//add event listener to the home button
+document.querySelector("#homeButton").addEventListener("click", function () {
+	window.location.href = "../dashboard";
+});
+
 //get the file
 async function loadFile() {
 	//var file = this.files[0];

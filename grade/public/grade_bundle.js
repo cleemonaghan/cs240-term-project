@@ -200,10 +200,9 @@ var jsonObject;
 
 loadFile();
 
-// Add event listener to home button
-document.querySelector("#homeButton").addEventListener("click", function()
-{
-  console.log("ENTER REDIRECT HERE");
+//add event listener to the home button
+document.querySelector("#homeButton").addEventListener("click", function () {
+	window.location.href = "../dashboard";
 });
 
 //get the file
@@ -575,6 +574,7 @@ function Rubric() {
 		newRowButton.addEventListener("click", function () {
 			newCategory(table, "", 0, 0, "");
 		});
+		newRowButton.innerHTML = "Add";
 		headers.appendChild(newRowButtonHeader);
 	}
 }
