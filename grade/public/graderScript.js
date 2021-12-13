@@ -71,7 +71,7 @@ function Rubric() {
 		newRowButton.addEventListener("click", function () {
 			newCategory(table, "", 0, 0, "");
 		});
-		newRowButton.innerHTML = "+Category";
+		newRowButton.innerHTML = "Add";
 		headers.appendChild(newRowButtonHeader);
 	}
 }
