@@ -1,7 +1,3 @@
-console.log(sessionStorage.getItem("username"));
-console.log(sessionStorage.getItem("password"));
-console.log(sessionStorage.getItem("userType"));
-
 // Get user session data
 var username = sessionStorage.getItem("username");
 var password = sessionStorage.getItem("password");
