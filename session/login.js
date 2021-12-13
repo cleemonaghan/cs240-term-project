@@ -52,7 +52,16 @@ function login()
         sessionStorage.setItem("password", password);
         sessionStorage.setItem("userType", accountType);
 
-        // Redirect to dashboard
-        window.location.href = "../dashboard/dashboard.html";
+        // Send to appropiate dashboard
+        if(accountType = "student")
+        {
+            // Redirect to dashboard
+            window.location.href = "../dashboard/dashboard.html";
+        }
+        else
+        {
+            // Redirect to dashboard
+            window.location.href = "../dashboard/facultyDashboard.html";
+        }
     }
 }
