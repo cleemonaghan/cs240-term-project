@@ -240,7 +240,7 @@ async function displayGraderPage() {
 	input.name = "assignment_name";
 	label.for = "assignment_name";
 	let submit = document.createElement("button");
-	submit.value = "Create";
+	submit.innerHTML = "Create";
 
 	submit.onclick = async function () {
 		let name = document.querySelector("#assignment_name").value;
