@@ -192,56 +192,12 @@ process.umask = function() { return 0; };
  */
 
 var axios = require("axios");
-var student = false;
+var student = sessionStorage.getItem("userType") != "grader";
 
-var thisClassName = "class1";
-var thisStudentID = "student3";
+var thisClassName = sessionStorage.getItem("assignment");
+var thisStudentID = sessionStorage.getItem("student");
 var jsonObject;
-/*
-var jsonObject = {
-	file: "filename.cmt",
-	class: "class1",
-	studentID: "student1",
-	highestID: 1,
-	comments: [
-		{
-			id: 0,
-			start: "word-1",
-			end: "word-10",
-			comment: "Bad code here",
-		},
-		{
-			id: 1,
-			start: "word-107",
-			end: "word-110",
-			comment: "Bad code here again",
-		},
-	],
-	maxPoints: 50,
-	rows: [
-		{
-			name: "style",
-			points: 13,
-			max: 15,
-			comments:
-				"very good though it is good practice to style in css rather than javascript or html.",
-		},
-		{
-			name: "efficency",
-			points: 5,
-			max: 6,
-			comments: "nice job!.",
-		},
-		{
-			name: "extra credit",
-			points: 10,
-			max: 0,
-			comments: "went to the presentation.",
-		},
-	],
-};
-*/
-//jsonObject = await fetchAssignment(this_className, this_studentID);
+
 loadFile();
 
 //get the file
