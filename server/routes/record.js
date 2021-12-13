@@ -65,6 +65,27 @@ recordRoutes.route("/users/delete").delete((req, res) => {
 		});
 });
 
+// This section will help you get a list of all the assignments
+recordRoutes
+	.route("/grader_classes/fetchClasses")
+	.get(async function (req, res) {
+		//connect to the database
+		const dbConnect = dbo.getDb();
+
+		const matchDocument = req.query;
+		dbConnect
+			.collection("grader_classes")
+			.find(matchDocument)
+			.limit(50)
+			.toArray(function (err, result) {
+				if (err) {
+					res.status(400).send("Error fetching classes!");
+				} else {
+					res.json(result);
+				}
+			});
+	});
+
 // This section will help you get a list of a specific record.
 recordRoutes.route("/assignments").get(async function (req, res) {
 	//connect to the database
