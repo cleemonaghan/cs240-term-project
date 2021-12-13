@@ -1,53 +1,39 @@
-.currentUser
-{
-    position: absolute;
-    right: 3px;
-    top: 0;
-    padding-right: 2px;
-    border: 3px solid maroon;
-    display: block;
-}
-
-.currentUser:hover
-{
-    display: none;
-}
-
-.logoutButton
-{
-    position: absolute;
-    right: 3px;
-    top: 0;
-    padding-right: 2px;
-    border: 3px solid maroon;
-    display: none;
-}
-
-.currentUser:hover + .logoutButton
-{
-    display: block;
-}
-
-.navBar
-{
-    background-color: aquamarine;
-    overflow: hidden;
-    width: 25%;
-}
-
-.curClass
-{
-    border: solid black 1px;
-}
-
-.link, .curClass 
+.square
 {
     float: left;
-    text-align: center;
-    padding: 5px;
+    position: relative;
+    width: 30%;
+    padding-bottom: 30%;
+    margin: 1.66%;
+    overflow: hidden;
+    background-color: aqua;
 }
 
-.navBar .link:hover
+.content
 {
-    color: blueviolet;
+    position: absolute;
+    height: 80%;
+    width: 90%;
+    padding: 10% 5%;
+}
+
+.table
+{
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.table-cell
+{
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+}
+
+body{
+    background-color: maroon;
 }
