@@ -44,6 +44,13 @@
 				let rubric = document.querySelector(".rubric-hub");
 				comments.style.display = "none";
 				rubric.style.display = "block";
+
+				//ensure the textareas are the right size
+				let areas = document.querySelectorAll("textarea");
+				for (let i = 0; i < areas.length; i++) {
+					areas[i].style.height = "5px";
+					areas[i].style.height = areas[i].scrollHeight + "px";
+				}
 			}
 		</script>
 		<script src="grade_bundle.js"></script>
