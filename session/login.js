@@ -18,8 +18,8 @@ function login()
 
 
     // Check Database for Valid User/Pwd
-    var validUsername = false; ////
-    var validPassword = false; ////
+    var validUsername = true; ////
+    var validPassword = true; ////
 
     // If the username is bad, display error
     if(!validUsername)
