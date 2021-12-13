@@ -86,6 +86,31 @@ recordRoutes
 			});
 	});
 
+recordRoutes.route("/grader_classes/addClass").post(function (req, res) {
+	const dbConnect = dbo.getDb();
+	const params = req.body.params;
+
+	const listingQuery = {
+		graderID: params.graderID,
+	};
+	const updates = {
+		$set: {
+			assignments: params.assignments,
+		},
+	};
+
+	dbConnect
+		.collection("grader_classes")
+		.updateOne(listingQuery, updates, function (err, _result) {
+			if (err) {
+				res.status(400).send(`Error submitting assignment!`);
+			} else {
+				console.log("1 document updated");
+				res.status(204).send();
+			}
+		});
+});
+
 // This section will help you get a list of a specific record.
 recordRoutes.route("/assignments").get(async function (req, res) {
 	//connect to the database

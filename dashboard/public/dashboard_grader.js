@@ -20,6 +20,7 @@ async function displayGraderPage() {
 	//fetch all the student's assignments
 	var grader = sessionStorage.getItem("username");
 	let graderJson = await fetchgraderAssignments(grader);
+	graderJson = graderJson[0];
 
 	//select the container on the page
 	let container = document.querySelector(".container");
@@ -80,12 +81,12 @@ async function displayGraderPage() {
 		section.appendChild(tileHolder);
 
 		//fetch all the student submissions from the database
-		let studentWork = fetchStudentsForClass(assignment);
+		let studentWork = await fetchStudentsForClass(assignment);
 
 		//add a tile for each student
 		let tileCount = 0;
 		for (let i = 0; i < studentWork.length; i++) {
-			if (studentWork[i].text == null) {
+			if (studentWork[i].text != null) {
 				tileCount += 1;
 				tileHolder.appendChild(
 					createTile(
@@ -198,6 +199,7 @@ async function insertAssignment(classname, grader, student, rawText) {
 			}
 		);
 	} else {
+		//if it does not exist, create it
 		await axios.post("http://129.114.104.125:5000/assignments/create", {
 			params: {
 				class: classname,
@@ -208,6 +210,14 @@ async function insertAssignment(classname, grader, student, rawText) {
 				comments: [],
 				maxPoints: 0,
 				rows: [],
+			},
+		});
+		let assignments = await fetchgraderAssignments(grader);
+		assignments.push(classname);
+		await axios.post("http://129.114.104.125:5000/grader_classes/addClass", {
+			params: {
+				graderID: grader,
+				assignments: assignments,
 			},
 		});
 	}
