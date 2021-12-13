@@ -49,9 +49,10 @@ async function displayGraderPage() {
 		let name = document.querySelector("#assignment_name").value;
 		let students = graderJson.students;
 		for (let i = 0; i < students.length; i++) {
-			await updateGraderClasses(name, grader);
 			await insertAssignment(name, grader, students[i], null);
 		}
+
+		await updateGraderClasses(name, grader);
 		// Refresh the page
 		window.location.reload();
 	};
