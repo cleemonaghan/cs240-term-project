@@ -209,7 +209,7 @@ async function insertAssignment(classname, grader, student, rawText) {
 			},
 		});
 		let assignments = await fetchgraderAssignments(grader);
-		assignments.push(classname);
+		assignments.assignments.push(classname);
 		await axios.post("http://129.114.104.125:5000/grader_classes/addClass", {
 			params: {
 				graderID: grader,
