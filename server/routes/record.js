@@ -9,24 +9,25 @@ const recordRoutes = express.Router();
 
 // This will help us connect to the database
 const dbo = require("../db/conn");
-/*
-// This section will help you get a list of all the records.
-recordRoutes.route("/assignments").get(async function (req, res) {
-  //connect to the database
-  const dbConnect = dbo.getDb();
 
-  dbConnect
-    .collection("assignments")
-    .find({}).limit(50)
-    .toArray(function (err, result) {
-      if (err) {
-        res.status(400).send("Error fetching listings!");
-     } else {
-        res.json(result);
-      }
-    });
+// This section will help you get a list of all the assignments
+recordRoutes.route("/assignments/fetchAll").get(async function (req, res) {
+	//connect to the database
+	const dbConnect = dbo.getDb();
+
+	const matchDocument = req.query;
+	dbConnect
+		.collection("assignments")
+		.find(matchDocument)
+		.limit(50)
+		.toArray(function (err, result) {
+			if (err) {
+				res.status(400).send("Error fetching assignments!");
+			} else {
+				res.json(result);
+			}
+		});
 });
-*/
 
 // This section will help you validate a user's credentials
 recordRoutes.route("/users/validate").get(async function (req, res) {
