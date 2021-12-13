@@ -222,34 +222,36 @@ async function loadFile() {
 
 	//reader.onload = function (progressEvent) {
 	// By lines
-	var lines = rawText.split("\n");
-	let wordIndex = 0;
-	for (var i = 0; i < lines.length; i++) {
-		//console.log(lines[i]);
-		//create a line for each child
-		let line = document.createElement("div");
-		let word = document.createElement("span");
-		//get the tabbing
-		let index = 1;
-		while (index - 1 < lines[i].length && lines[i][index - 1] == "\t") {
-			index++;
-		}
-		word.innerHTML = `${i + 1}.`;
-		word.id = `line${i + 1}.`;
-		word.className = "code-word";
-		word.style = `padding-right: ${20 * index}px`;
-		line.appendChild(word);
-		let arrayOfWords = lines[i].split(" ");
-		for (let j = 0; j < arrayOfWords.length; j++) {
-			word = document.createElement("div");
-			word.innerHTML = arrayOfWords[j].trim() + " ";
+	if (rawText != null) {
+		var lines = rawText.split("\n");
+		let wordIndex = 0;
+		for (var i = 0; i < lines.length; i++) {
+			//console.log(lines[i]);
+			//create a line for each child
+			let line = document.createElement("div");
+			let word = document.createElement("span");
+			//get the tabbing
+			let index = 1;
+			while (index - 1 < lines[i].length && lines[i][index - 1] == "\t") {
+				index++;
+			}
+			word.innerHTML = `${i + 1}.`;
+			word.id = `line${i + 1}.`;
 			word.className = "code-word";
-			word.id = `word-${wordIndex}`;
-			wordIndex++;
+			word.style = `padding-right: ${20 * index}px`;
 			line.appendChild(word);
-		}
+			let arrayOfWords = lines[i].split(" ");
+			for (let j = 0; j < arrayOfWords.length; j++) {
+				word = document.createElement("div");
+				word.innerHTML = arrayOfWords[j].trim() + " ";
+				word.className = "code-word";
+				word.id = `word-${wordIndex}`;
+				wordIndex++;
+				line.appendChild(word);
+			}
 
-		code.appendChild(line);
+			code.appendChild(line);
+		}
 	}
 
 	//add all the previous comments to the screen
@@ -775,9 +777,9 @@ function jsonToRubric(jsonRub) {
 
 	// Add all the categories again
 	var categories = jsonRub.rubric;
-  if(categories == undefined) {
-    categories = [];
-  }
+	if (categories == undefined) {
+		categories = [];
+	}
 	for (var i = 0; i < categories.length; i++) {
 		var row = categories[i];
 		newCategory(table, row.name, row.points, row.max, row.comments);
