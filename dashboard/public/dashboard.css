@@ -6,6 +6,7 @@ body {
 .nav-bar {
 	background-color: cornflowerblue;
 	color: white;
+	overflow: hidden;
 }
 
 .container {
@@ -56,4 +57,16 @@ body {
 	color: transparent;
 	padding-left: 5px;
 	padding-top: 40px;
+}
+
+.logout
+{
+	float: right;
+}
+
+.header
+{
+	display: inline-block;
+	left: 50%;
+	position: fixed;
 }

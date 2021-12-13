@@ -54,12 +54,13 @@ async function updateComments(classname, student, newComments, newHighestId) {
 	});
 }
 
-async function updateRubric(classname, student, newRubric, newMaxPoints) {
+async function updateRubric(classname, student, newRubric, newMaxPoints, newTotalPoints) {
 	await axios.post("http://129.114.104.125:5000/assignments/updateRubric", {
 		params: {
 			class: classname,
 			studentID: student,
 			maxPoints: newMaxPoints,
+			totalPoints: newTotalPoints,
 			rubric: newRubric,
 		},
 	});
