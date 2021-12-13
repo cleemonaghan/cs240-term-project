@@ -286,7 +286,7 @@ async function displayGraderPage() {
 				createTile(
 					studentWork[i].class,
 					studentWork[i].studentID,
-					studentWork[i].maxPoints,
+					studentWork[i].totalPoints,
 					studentWork[i].maxPoints,
 					studentWork[i].maxPoints != 0,
 					studentWork[i].text

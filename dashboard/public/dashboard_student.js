@@ -57,7 +57,7 @@ async function displayStudentPage() {
 			tileHolder.appendChild(
 				createTile(
 					assignments[i].class,
-					assignments[i].maxPoints,
+					assignments[i].totalPoints,
 					assignments[i].maxPoints,
 					false
 				)
@@ -96,7 +96,7 @@ async function displayStudentPage() {
 			tileHolder.appendChild(
 				createTile(
 					assignments[i].class,
-					assignments[i].maxPoints,
+					assignments[i].totalPoints,
 					assignments[i].maxPoints,
 					true
 				)
@@ -139,7 +139,7 @@ async function displayStudentPage() {
 			tileHolder.appendChild(
 				createTile(
 					assignments[i].class,
-					assignments[i].maxPoints,
+					assignments[i].totalPoints,
 					assignments[i].maxPoints,
 					false
 				)
