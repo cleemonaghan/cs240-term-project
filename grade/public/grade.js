@@ -1,52 +1,22 @@
-var student = false;
-var jsonObject = {
-	file: "filename.cmt",
-	class: "class1",
-	studentID: "student1",
-	highestID: 1,
-	comments: [
-		{
-			id: 0,
-			start: "word-1",
-			end: "word-10",
-			comment: "Bad code here",
-		},
-		{
-			id: 1,
-			start: "word-107",
-			end: "word-110",
-			comment: "Bad code here again",
-		},
-	],
-	maxPoints : 50,
-	rows : 
-	[
-		{
-			name : "style", 
-			points : 13, 
-			max : 15, 
-			comments : "very good though it is good practice to style in css rather than javascript or html."
-		},
-		{
-			name : "efficency", 
-			points : 5, 
-			max : 6, 
-			comments : "nice job!."
-		},
-		{
-			name : "extra credit",
-			points : 10,
-			max : 0,
-			comments : "went to the presentation."
-		}
-	]
-};
+var student = sessionStorage.getItem("userType") != "grader";
+
+var thisClassName = sessionStorage.getItem("assignment");
+var thisStudentID = sessionStorage.getItem("student");
+var jsonObject;
+
+loadFile();
+
+//add event listener to the home button
+document.querySelector("#homeButton").addEventListener("click", function () {
+	window.location.href = "../dashboard";
+});
 
 //get the file
-document.getElementById("file").onchange = function () {
-	var file = this.files[0];
+async function loadFile() {
+	//var file = this.files[0];
+	jsonObject = await fetchAssignment(thisClassName, thisStudentID);
 
-	var reader = new FileReader();
+	var rawText = jsonObject.text; //new FileReader();
 
 	// Get the element for the code panel
 	let code = document.querySelector(".code-text");
@@ -56,9 +26,10 @@ document.getElementById("file").onchange = function () {
 	//clear the old comments from the screen
 	document.querySelector(".comment-hub").replaceChildren([]);
 
-	reader.onload = function (progressEvent) {
-		// By lines
-		var lines = this.result.split("\n");
+	//reader.onload = function (progressEvent) {
+	// By lines
+	if (rawText != null) {
+		var lines = rawText.split("\n");
 		let wordIndex = 0;
 		for (var i = 0; i < lines.length; i++) {
 			//console.log(lines[i]);
@@ -87,35 +58,35 @@ document.getElementById("file").onchange = function () {
 
 			code.appendChild(line);
 		}
+	}
 
-		jsonObject.file = file.name;
-		//add all the previous comments to the screen
-		uploadPreviousComments(file.name);
+	//add all the previous comments to the screen
+	uploadPreviousComments(jsonObject.class, jsonObject.studentID);
 
-		//if a grader, add a listener for new comments
-		if (!student) {
-			//add an event listener the code-panel
-			code.addEventListener("mouseup", function () {
-				let selection = window.getSelection();
-				let startElement = selection.getRangeAt(0).startContainer.parentElement;
-				let endElement = selection.getRangeAt(0).endContainer.parentElement;
-				if (startElement == endElement) return;
-				else {
-					let newID = jsonObject.highestID + 1;
-					jsonObject.highestID = newID;
-					createCommentElement(
-						newID,
-						startElement,
-						endElement,
-						"Make new comment here",
-						false
-					);
-				}
-			});
-		}
-	};
-	reader.readAsText(file);
-};
+	//if a grader, add a listener for new comments
+	if (!student) {
+		//add an event listener the code-panel
+		code.addEventListener("mouseup", function () {
+			let selection = window.getSelection();
+			let startElement = selection.getRangeAt(0).startContainer.parentElement;
+			let endElement = selection.getRangeAt(0).endContainer.parentElement;
+			if (startElement == endElement) return;
+			else {
+				let newID = jsonObject.highestID + 1;
+				jsonObject.highestID = newID;
+				createCommentElement(
+					newID,
+					startElement,
+					endElement,
+					"Make new comment here",
+					false
+				);
+			}
+		});
+	}
+	//};
+	//reader.readAsText(file);
+}
 
 function createCommentElement(
 	commentID,
@@ -251,7 +222,7 @@ function traverseCodeWords(startElement, endElement, func) {
 	if (endElement.localName != "span") func(endElement);
 }
 
-function AddCommentToFile(newID, start, end) {
+async function AddCommentToFile(newID, start, end) {
 	//create a json object holding the file, commentId, start, end, and commentText for the new comment
 
 	//create a unique commentId for the comment
@@ -265,8 +236,14 @@ function AddCommentToFile(newID, start, end) {
 		comment: commentElement.firstChild.nextSibling.innerHTML,
 	};
 	jsonObject.comments.push(newComment);
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestID
+	);
 }
-function updateCommentInFile(commentElement) {
+async function updateCommentInFile(commentElement) {
 	//update the text in the json object for the comment
 	console.log("updating comment");
 	let commentID = commentElement.id;
@@ -275,12 +252,18 @@ function updateCommentInFile(commentElement) {
 		if (current.id == commentID) {
 			jsonObject.comments[index].comment =
 				commentElement.firstChild.nextSibling.value;
-			return;
+			break;
 		}
 	}
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestID
+	);
 }
 
-function deleteCommentFromFile(commentElement) {
+async function deleteCommentFromFile(commentElement) {
 	//delete the json object for the comment
 	console.log("deleting comment");
 	let commentID = commentElement.id;
@@ -293,9 +276,16 @@ function deleteCommentFromFile(commentElement) {
 		}
 	}
 	jsonObject.comments.splice(index, 1);
+	await updateComments(
+		jsonObject.class,
+		jsonObject.studentID,
+		jsonObject.comments,
+		jsonObject.highestID
+	);
 }
 
-function uploadPreviousComments(filename) {
+async function uploadPreviousComments(className, studentID) {
+	//load the old comments
 	let comments = jsonObject.comments;
 
 	for (let index = 0; index < comments.length; index++) {
@@ -312,18 +302,7 @@ function uploadPreviousComments(filename) {
 			);
 		}
 	}
-}
 
-function showComments() {
-	let comments = document.querySelector(".comment-hub");
-	let rubric = document.querySelector(".rubric-hub");
-	comments.style.display = "block";
-	rubric.style.display = "none";
-}
-
-function showRubric() {
-	let comments = document.querySelector(".comment-hub");
-	let rubric = document.querySelector(".rubric-hub");
-	comments.style.display = "none";
-	rubric.style.display = "block";
+	//load the old rubric
+	jsonToRubric(jsonObject);
 }

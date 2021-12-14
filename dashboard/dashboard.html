@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 
 <head>
+
+    <meta charset="utf-8" />
+    <title>Index</title>
     <link rel="stylesheet" href="dashboard.css" />
 </head>
 
 <body>
-    <!--<div class="title">
-        <div>
-            Dashboard
-        </div>
-        <div>
-            Logout
-        </div>
-    </div>-->
-    
-    <ul class="topBar">
-        <li class="title">Dashboard of:</li>
-        <li class="currentUser"></li>
-        <li class="logout">Logout</li>
-    </ul>
+    <div class="nav-bar">
+        <nav>
+            <h id="currentUser"></h>
+            <h class="header">GRADEBOOK CODE</h>
+            <button class="logout" onclick="logout()">Logout</button>
+        </nav>
+    </div>
 
-    <div class="square">
-        <div class="content">
-            <div class="outerPositioner">
-                <div class="item">
-                    <a>Link1</a>
+    <div class="container">
+        <!--
+        <div class="section">
+            <h1>Submit Assignments</h1>
+            <div class="tile-holder">
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
+                </div>
+                <div class="tile" onclick="console.log(`click`)">
+                    <div class="tile-name">Name</div>
+                    <div class="tile-score">50/50</div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="section">
+            <h1>Review Assignments</h1>
 
-    <div class="square">
-        <div class="content">
-            <div class="outerPositioner">
-                <div class="item">
-                    <a>Link2</a>
-                </div>
-            </div>
         </div>
+        -->
     </div>
 
-    <div class="square">
-        <div class="content">
-            <div class="outerPositioner">
-                <div class="item">
-                    <a>Link3</a>
-                </div>
-            </div>
-        </div>
-    </div>
-  
 
-    <script src="dashboard.js"></script>
+    <!--<script src="../grade/public/mongoInteractions.js"></script>
+    <script src="public/bundle_dashboard_student.js"></script>
+    <script src="public/bundle_dashboard_grader.js"></script>
+    <script src="public/dashboard.js"></script>
+    <script src="../session/public/logout.js"></script>-->
+
+    <script src="bundle_dashboard_student.js"></script>
+    <script src="bundle_dashboard_grader.js"></script>
+    <script src="logout.js"></script>
 </body>
 
 </html>

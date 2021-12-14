@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Index</title>
+		<link rel="stylesheet" href="grade_style.css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="code-panel">
+				<code class="code-text"> </code>
+			</div>
+			<div class="rubric-panel">
+				<nav class="menu">
+					<button id="homeButton" class="menu-item">Home</button>
+					<div class="menu-item">
+						<div class="menu-sub-item">
+							<button id="toggle-comments" onclick="showComments()">
+								Comments
+							</button>
+						</div>
+						<div class="menu-sub-item">
+							<button id="toggle-rubric" onclick="showRubric()">Rubric</button>
+						</div>
+					</div>
+				</nav>
+				<div class="comment-hub"></div>
+				<div class="rubric-hub"></div>
+			</div>
+		</div>
+
+		<script>
+			function showComments() {
+				let comments = document.querySelector(".comment-hub");
+				let rubric = document.querySelector(".rubric-hub");
+				comments.style.display = "block";
+				rubric.style.display = "none";
+			}
+
+			function showRubric() {
+				let comments = document.querySelector(".comment-hub");
+				let rubric = document.querySelector(".rubric-hub");
+				comments.style.display = "none";
+				rubric.style.display = "block";
+
+				//ensure the textareas are the right size
+				let areas = document.querySelectorAll("textarea");
+				for (let i = 0; i < areas.length; i++) {
+					areas[i].style.height = "5px";
+					areas[i].style.height = areas[i].scrollHeight + "px";
+				}
+			}
+		</script>
+		<script src="grade_bundle.js"></script>
+		<!--<script src="grade.js"></script>
+		<script src="graderScript.js"></script>-->
+	</body>
+</html>
